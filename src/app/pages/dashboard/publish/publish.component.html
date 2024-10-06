@@ -1,0 +1,98 @@
+<div class="card card-xl-stretch mb-xl-8">
+  <!-- begin::Header -->
+  <div class="card-header justify-content-end border-0">
+    <div
+      class="d-flex flex-nowrap align-items-center justify-content-between gap-5 w-100"
+    >
+      <div
+        *ngIf="newsToPublish.length"
+        class="form-check form-check-sm form-check-custom form-check-solid"
+      >
+        <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="toggleSelectAll($event)"
+          [checked]="newsToPublish[0].news.length === selectedNews.length"
+          data-kt-check="true"
+          data-kt-check-target=".widget-9-check"
+        />
+        <span class="me-2">الكل</span>
+      </div>
+      <form class="flex-grow-1 position-relative">
+        <app-keenicon
+          name="magnifier"
+          class="fs-2 position-absolute top-50 start-0 ms-5 translate-middle-y"
+        ></app-keenicon>
+        <input
+          type="text"
+          class="form-control form-control-solid pe-5"
+          name="search"
+          autocomplete="off"
+          placeholder="ابحث عن الأخبار من هنا.."
+          (input)="onSearch($event)"
+        />
+      </form>
+      <div class="card-toolbar">
+        <button
+          type="button"
+          class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+          data-kt-menu-trigger="click"
+          data-kt-menu-placement="bottom-end"
+          data-kt-menu-flip="top-end"
+          title="تصفية"
+        >
+          <app-keenicon name="category" class="fs-2"></app-keenicon>
+        </button>
+        <app-dropdown-menu
+          [filterOptions]="filterOptions"
+          (filterOptionsEmitter)="recieveFilterOptions($event)"
+        ></app-dropdown-menu>
+        <div class="d-flex align-items-center me-2">
+          <div>
+            <select
+              class="form-select form-select-solid py-2 w-125px"
+              data-kt-select2="true"
+              data-placeholder="Select option"
+              data-allow-clear="true"
+              [value]="selectedStatus"
+              (change)="onSelectedRoleChange($event)"
+            >
+              @for(item of status; track item; let idx = $index){
+              <option value="{{ idx + 1 }}">{{ item.name }}</option>
+              }
+            </select>
+          </div>
+          <button
+            (click)="returnNews()"
+            class="btn btn-sm btn-primary d-flex align-items-center gap-3 me-2"
+            [disabled]="isLoading$ | async"
+          >
+            اعادة
+          </button>
+        </div>
+        <button
+          (click)="publishNews()"
+          class="btn btn-sm btn-primary d-flex align-items-center gap-3 me-2"
+          [disabled]="isLoading$ | async"
+        >
+          نشر
+        </button>
+        <button
+          (click)="deleteNews()"
+          class="btn btn-sm btn-danger d-flex align-items-center gap-3 me-2"
+          [disabled]="isLoading$ | async"
+        >
+          حذف
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body pt-2">
+    <app-group-list
+      [items]="newsToPublish"
+      [groupListOptions]="groupLisOptions"
+      [selectedItems]="selectedNews"
+      (selectedItemsChange)="receiveSelectedNews($event)"
+    ></app-group-list>
+  </div>
+</div>

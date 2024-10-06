@@ -1,0 +1,22 @@
+<div class="card card-xl-stretch mb-xl-8">
+  <!-- begin::Header -->
+  <div class="card-header justify-content-between border-0">
+    <h3 class="card-title fw-bolder text-gray-900">أخبار عاجلة</h3>
+    <div class="card-toolbar">
+      <app-add-urgent-new
+        (onNewUrgentContentAddedEmitter)="recieveIsUrgentContentAdded($event)"
+      ></app-add-urgent-new>
+      <app-choose-from-daily-news
+        (onNewUrgentContentAddedEmitter)="recieveIsUrgentContentAdded($event)"
+      ></app-choose-from-daily-news>
+    </div>
+  </div>
+  <div class="card-body pt-2">
+    <app-group-list
+      [groupListOptions]="groupListOptions"
+      [items]="items"
+      (isAddedEmitter)="recieveIsUrgentContentAdded($event)"
+    >
+    </app-group-list>
+  </div>
+</div>

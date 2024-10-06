@@ -1,0 +1,858 @@
+<div class="card mb-5 mb-xl-10">
+  <div class="card-header border-0 p-0 cursor-pointer">
+    <div class="card-title m-0" style="padding: 0 2.25rem">
+      <h3 class="fw-bolder mt-4">أضافة مادة</h3>
+    </div>
+  </div>
+  <app-drafts
+    (draftEmitter)="receiver('restoredDraft', $event)"
+    (addDraftEmitter)="receiver('addDraft', $event)"
+  ></app-drafts>
+  <div class="card-body border-top p-9">
+    @if(addNewForm && addNewForm.controls){
+    <form [formGroup]="addNewForm" id="addNew" class="form">
+      <div class="row mb-6">
+        <label class="col-lg-2 col-form-label fw-bold fs-6">
+          <span class="required">نوع المادة</span>
+        </label>
+        <div class="col-lg-4">
+          <select
+            class="form-select w-fit form-select-solid"
+            data-kt-select2="true"
+            data-placeholder="Select option"
+            data-allow-clear="true"
+            formControlName="NewsType"
+            (change)="onNewsTypeChange($event)"
+          >
+            @for(item of contentTypes; track item; let idx = $index){
+            <option value="{{ item.typeId }}">{{ item.contentType1 }}</option>
+            }
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'نوع الخبر مطلوب',
+              control: addNewForm.controls['NewsType']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <ng-template
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+      >
+        <ng-container
+          *ngIf="
+            control &&
+            control.hasError(validation) &&
+            (control.dirty || control.touched || (!control.valid && submitted))
+          "
+        >
+          <div class="w-100 fv-plugins-message-container">
+            <span role="alert" class="text-danger">
+              {{ message }}
+            </span>
+          </div>
+        </ng-container>
+      </ng-template>
+      <div class="separator my-3 opacity-75"></div>
+      <div class="row mb-6">
+        <label class="col-lg-2 col-form-label fw-bold fs-6">
+          <span class="required">التصنيف</span>
+        </label>
+        <div class="col-lg-4">
+          <select
+            class="form-select form-select-solid"
+            (change)="onCategoryChange($event)"
+            formControlName="sectionId"
+          >
+            <option value=""></option>
+            @for(category of categories; track category;){ @if(!category.hide){
+            <option value="{{ category.categoryID }}">
+              {{ category.name }}
+            </option>
+            }}
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'التصنيف مطلوب',
+              control: addNewForm.controls['sectionId']
+            }"
+          ></ng-container>
+        </div>
+        <ng-template
+          #formError
+          let-control="control"
+          let-message="message"
+          let-validation="validation"
+        >
+          <ng-container
+            *ngIf="
+              control.hasError(validation) &&
+              (control.dirty ||
+                control.touched ||
+                (!control.valid && submitted))
+            "
+          >
+            <div class="w-100 fv-plugins-message-container">
+              <span role="alert" class="text-danger">
+                {{ message }}
+              </span>
+            </div>
+          </ng-container>
+        </ng-template>
+        <label class="col-lg-2 col-form-label fw-bold fs-6">
+          <span class="required">القسم</span>
+        </label>
+        <div class="col-lg-4">
+          <select class="form-select form-select-solid" formControlName="CatId">
+            @for(subCategory of subCategories; track subCategory;){
+            <option value="{{ subCategory.sectionID }}">
+              {{ subCategory.secTitle }}
+            </option>
+            }
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'القسم مطلوب',
+              control: addNewForm.controls['sectionId']
+            }"
+          ></ng-container>
+        </div>
+        <ng-template
+          #formError
+          let-control="control"
+          let-message="message"
+          let-validation="validation"
+        >
+          <ng-container
+            *ngIf="
+              control.hasError(validation) &&
+              (control.dirty ||
+                control.touched ||
+                (!control.valid && submitted))
+            "
+          >
+            <div class="w-100 fv-plugins-message-container">
+              <span role="alert" class="text-danger">
+                {{ message }}
+              </span>
+            </div>
+          </ng-container>
+        </ng-template>
+      </div>
+      <div class="row mb-6" *ngIf="addNewForm.get('ByLine')">
+        <label class="col-lg-2 col-form-label fw-bold fs-6">
+          <span class="required">كتب</span>
+        </label>
+        <div class="col-lg-10 fv-row">
+          <div class="input-group mb-5">
+            <input
+              type="text"
+              class="form-control form-control-lg form-control-solid"
+              [ngClass]="byLine.value.length ? 'rounded-start-0' : ''"
+              #byLine
+              formControlName="ByLine"
+            />
+            @if(byLine.value.length){
+            <span
+              class="input-group-text rounded-end-0 rounded-start"
+              id="basic-addon2"
+            >
+              {{ byLine.value.length }}
+            </span>
+            }
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                  validation: 'minlength',
+                  message: ' يجب ان لا يقل العنوان عن ' + this.addNewForm.controls.ByLine.errors?.minlength 
+                  ?.requiredLength + ' حرف ',
+                  control: addNewForm.controls['ByLine'],
+                }
+              "
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                  validation: 'maxlength',
+                  message: ' يجب ان لا يزيد العنوان عن ' + this.addNewForm.controls.ByLine.errors?.maxlength 
+                  ?.requiredLength + ' حرف ',
+                  control: addNewForm.controls['ByLine'],
+                }
+              "
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'كاتب الخبر مطلوب',
+                control: addNewForm.controls['ByLine']
+              }"
+            ></ng-container>
+          </div>
+        </div>
+      </div>
+      <ng-template
+        *ngIf="addNewForm.get('ByLine')"
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+      >
+        <ng-container
+          *ngIf="
+            control.hasError(validation) &&
+            (control.dirty || control.touched || (!control.valid && submitted))
+          "
+        >
+          <div class="w-100 fv-plugins-message-container">
+            <span role="alert" class="text-danger">
+              {{ message }}
+            </span>
+          </div>
+        </ng-container>
+      </ng-template>
+      <div class="row mb-6" *ngIf="addNewForm.get('EditorID')">
+        <label class="col-lg-2 col-form-label fw-bold fs-6">
+          <span class="required">الكاتب / المراسل</span>
+        </label>
+        <div class="col-lg-10 fv-row">
+          <select
+            class="form-select w-fit form-select-solid"
+            data-kt-select2="true"
+            data-placeholder="Select option"
+            data-allow-clear="true"
+            formControlName="EditorID"
+          >
+            @for(item of editors; track item; let idx = $index){
+            <option value="{{ item.editorId }}">{{ item.editorName }}</option>
+            }
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'نوع الخبر مطلوب',
+              control: addNewForm.controls['NewsType']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <ng-template
+        *ngIf="addNewForm.get('ByLine')"
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+      >
+        <ng-container
+          *ngIf="
+            control.hasError(validation) &&
+            (control.dirty || control.touched || (!control.valid && submitted))
+          "
+        >
+          <div class="w-100 fv-plugins-message-container">
+            <span role="alert" class="text-danger">
+              {{ message }}
+            </span>
+          </div>
+        </ng-container>
+      </ng-template>
+      <div class="row mb-6" *ngIf="addNewForm.get('Title')">
+        <label class="col-lg-2 col-form-label fw-bold fs-6">
+          <span class="required">العنوان</span>
+        </label>
+        <div class="col-lg-10 fv-row">
+          <div class="input-group mb-5">
+            <input
+              type="text"
+              class="form-control form-control-lg form-control-solid"
+              formControlName="Title"
+              [ngClass]="Title.value.length ? 'rounded-start-0' : ''"
+              #Title
+            />
+            @if(Title.value.length){
+            <span
+              class="input-group-text rounded-end-0 rounded-start"
+              id="basic-addon2"
+            >
+              {{ Title.value.length }}
+            </span>
+            }
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                  validation: 'minlength',
+                  message: ' يجب ان لا يقل العنوان عن ' + this.addNewForm.controls.Title.errors?.minlength 
+                  ?.requiredLength + ' حرف ',
+                  control: addNewForm.controls['Title'],
+                }
+              "
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                  validation: 'maxlength',
+                  message: ' يجب ان لا يزيد العنوان عن ' + this.addNewForm.controls.Title.errors?.maxlength 
+                  ?.requiredLength + ' حرف ',
+                  control: addNewForm.controls['Title'],
+                }
+              "
+            ></ng-container>
+          </div>
+        </div>
+      </div>
+      <ng-template
+        *ngIf="addNewForm.get('Title')"
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+      >
+        <ng-container
+          *ngIf="
+            control.hasError(validation) &&
+            (control.dirty || control.touched || (!control.valid && submitted))
+          "
+        >
+          <div class="w-100 fv-plugins-message-container">
+            <span role="alert" class="text-danger">
+              {{ message }}
+            </span>
+          </div>
+        </ng-container>
+      </ng-template>
+      <div class="row mb-6" *ngIf="addNewForm.get('SubTitle')">
+        <label class="col-lg-2 col-form-label fw-bold fs-6">
+          عنوان تمهيدي
+        </label>
+        <div class="col-lg-10 fv-row">
+          <div class="input-group mb-5">
+            <input
+              type="text"
+              class="form-control form-control-lg form-control-solid"
+              [ngClass]="SubTitle.value.length ? 'rounded-start-0' : ''"
+              formControlName="SubTitle"
+              #SubTitle
+            />
+            @if(SubTitle.value.length){
+            <span
+              class="input-group-text rounded-end-0 rounded-start"
+              id="basic-addon2"
+            >
+              {{ SubTitle.value.length }}
+            </span>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="row mb-6" *ngIf="addNewForm.get('Brief')">
+        <label class="col-lg-2 col-form-label fw-bold fs-6">
+          <span class="required">مقدمة</span>
+        </label>
+        <div class="col-lg-10 fv-row">
+          <div class="input-group mb-5">
+            <textarea
+              type="text"
+              class="form-control form-control-lg form-control-solid"
+              [ngClass]="Brief.value.length ? 'rounded-start-0' : ''"
+              formControlName="Brief"
+              #Brief
+            ></textarea>
+            @if(Brief.value.length){
+            <span
+              class="input-group-text rounded-end-0 rounded-start"
+              id="basic-addon2"
+            >
+              {{ Brief.value.length }}
+            </span>
+            }
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                  validation: 'minlength',
+                  message: ' يجب ان لا تقل المقدمة عن ' + this.addNewForm.controls.Brief.errors?.minlength 
+                  ?.requiredLength + ' حرف ',
+                  control: addNewForm.controls['Brief'],
+                }
+              "
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                  validation: 'maxlength',
+                  message: ' يجب ان لا تزيد المقدمة عن ' + this.addNewForm.controls.Brief.errors?.maxlength 
+                  ?.requiredLength + ' حرف ',
+                  control: addNewForm.controls['Brief'],
+                }
+              "
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'المقدمة مطلوبة',
+                control: addNewForm.controls['Brief']
+              }"
+            ></ng-container>
+          </div>
+        </div>
+      </div>
+      <ng-template
+        *ngIf="addNewForm.get('Brief')"
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+      >
+        <ng-container
+          *ngIf="
+            control.hasError(validation) &&
+            (control.dirty || control.touched || (!control.valid && submitted))
+          "
+        >
+          <div class="w-100 fv-plugins-message-container">
+            <span role="alert" class="text-danger">
+              {{ message }}
+            </span>
+          </div>
+        </ng-container>
+      </ng-template>
+      <div class="row mb-6">
+        <label class="col-lg-2 col-form-label required fw-bold fs-6">
+          جسم الخبر
+        </label>
+        <div class="col-lg-10 fv-row">
+          <div class="input-group mb-5">
+            <textarea
+              type="text"
+              class="form-control form-control-lg form-control-solid"
+              [ngClass]="Story.value.length ? 'rounded-start-0' : ''"
+              formControlName="Story"
+              #Story
+            ></textarea>
+            @if(Story.value.length){
+            <span
+              class="input-group-text rounded-end-0 rounded-start"
+              id="basic-addon2"
+            >
+              {{ Story.value.length }}
+            </span>
+            }
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                  validation: 'minlength',
+                  message: ' يجب ان لا يقل المقدمة عن ' + this.addNewForm.controls.Story.errors?.minlength 
+                  ?.requiredLength + ' حرف ',
+                  control: addNewForm.controls['Story'],
+                }
+              "
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                  validation: 'maxlength',
+                  message: ' يجب ان لا يزيد المقدمة عن ' + this.addNewForm.controls.Story.errors?.maxlength 
+                  ?.requiredLength + ' حرف ',
+                  control: addNewForm.controls['Story'],
+                }
+              "
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'المقدمة مطلوبة',
+                control: addNewForm.controls['Story']
+              }"
+            ></ng-container>
+          </div>
+          <!-- TODO: Implement tinyMce again -->
+          <!-- <editor
+            [init]="init"
+            [apiKey]="TINY_MCE_API_KEY"
+            formControlName="Story"
+          /> -->
+        </div>
+      </div>
+      <!-- <div class="row mb-6" *ngIf="addNewForm.get('AssociatedID')">
+        <div class="col-lg-10 fv-row me-auto">
+          <app-add-article></app-add-article>
+        </div>
+      </div> -->
+      <div class="separator my-3 opacity-75"></div>
+      <div class="row mb-6">
+        <label class="col-lg-2 col-form-label required fw-bold fs-6"
+          >تاجز</label
+        >
+        <div class="col-lg-10 fv-row">
+          <app-tags-input
+            (tagsEmitter)="receiver('tags', $event)"
+          ></app-tags-input>
+        </div>
+      </div>
+      <div class="separator my-3 opacity-75"></div>
+
+      <div class="row mb-6">
+        <label class="col-lg-2 col-form-label required fw-bold fs-6">
+          الصورة الأولي
+        </label>
+        <div class="col-lg-10 fv-row d-flex align-items-center gap-2">
+          @if(selectedImage){
+          <app-image
+            [selectedImage]="selectedImage"
+            (selectedImageEmitter)="receiver('selectedImage', $event)"
+          ></app-image
+          >}@else{
+          <app-add-image
+            (selectedImageEmitter)="receiver('selectedImage', $event)"
+          ></app-add-image>
+          }
+          <app-upload-image></app-upload-image>
+        </div>
+      </div>
+      <div class="row mb-6">
+        <label class="col-lg-2 col-form-label fw-bold fs-6 mt-2">
+          <span class="required">تعليق الصورة الأولي</span>
+        </label>
+        <div class="col-lg-10 fv-row">
+          <div class="input-group mb-5">
+            <input
+              type="text"
+              class="form-control form-control-lg form-control-solid"
+              [ngClass]="PictureCaption1.value.length ? 'rounded-start-0' : ''"
+              formControlName="PictureCaption1"
+              #PictureCaption1
+            />
+            @if(PictureCaption1.value.length){
+            <span
+              class="input-group-text rounded-end-0 rounded-start"
+              id="basic-addon2"
+            >
+              {{ PictureCaption1.value.length }}
+            </span>
+            }
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'تعليق الصورة مطلوب',
+                control: addNewForm.controls['PictureCaption1']
+              }"
+            ></ng-container>
+          </div>
+        </div>
+      </div>
+      <ng-template
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+      >
+        <ng-container
+          *ngIf="
+            control.hasError(validation) &&
+            (control.dirty || control.touched || (!control.valid && submitted))
+          "
+        >
+          <div class="w-100 fv-plugins-message-container">
+            <span role="alert" class="text-danger">
+              {{ message }}
+            </span>
+          </div>
+        </ng-container>
+      </ng-template>
+      <div class="row mb-6">
+        <label class="col-lg-2 col-form-label fw-bold fs-6">
+          <span class="required">المرفقات</span>
+        </label>
+        <div class="col-lg-10 fv-row mb-6">
+          <app-image
+            (selectedImageEmitter)="receiver('attachment', $event)"
+          ></app-image>
+        </div>
+        <div class="row mb-6">
+          <ul class="d-flex align-items-center gap-2">
+            @for(item of selectedAlbums; track item;){
+            <li
+              class="d-flex align-items-center py-2 bg-secondary px-2 rounded"
+            >
+              <button
+                class="btn btn-sm btn-icon btn-active-color-success"
+                (click)="onRemoveAlbum(item.galleryID)"
+              >
+                <app-keenicon name="cross" class="fs-1"></app-keenicon>
+              </button>
+              {{ item.galleryTitle }}
+            </li>
+            }
+          </ul>
+          <label class="col-lg-2 col-form-label required fw-bold fs-6"
+            >البوم المحتوي</label
+          >
+          <div class="col-lg-8">
+            <select #albumSelect class="form-select form-select-solid">
+              @for(item of albums; track item;){
+              <option value="{{ item.galleryID }}">
+                {{ item.galleryTitle }}
+              </option>
+              }
+            </select>
+          </div>
+          <div class="col-lg-2">
+            <button
+              (click)="onSelectAlbum(albumSelect.value)"
+              class="btn btn-primary d-flex align-items-center gap-3"
+            >
+              اضافة
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-6">
+        <label class="col-lg-2 col-form-label fw-bold fs-6">محتوي فيديو</label>
+        <div class="col-lg-10 d-flex align-items-center">
+          <div class="form-check form-check-solid form-switch fv-row">
+            <input
+              class="form-check-input w-45px h-30px"
+              type="checkbox"
+              formControlName="ChkNewsTicker"
+            /><label class="form-check-label"></label>
+          </div>
+        </div>
+      </div>
+      <div class="separator my-3 opacity-75"></div>
+      <div class="row mb-6">
+        <label class="col-lg-2 col-form-label fw-bold fs-6">
+          <span class="required">ملاحظات</span>
+        </label>
+        <div class="col-lg-10 fv-row">
+          <div class="input-group mb-5">
+            <textarea
+              type="text"
+              class="form-control form-control-lg form-control-solid"
+              [ngClass]="Notes.value.length ? 'rounded-start-0' : ''"
+              formControlName="Notes"
+              #Notes
+            ></textarea>
+            @if(Notes.value.length){
+            <span
+              class="input-group-text rounded-end-0 rounded-start"
+              id="basic-addon2"
+            >
+              {{ Notes.value.length }}
+            </span>
+            }
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'الملاحظات مطلوبة',
+                control: addNewForm.controls['Notes']
+              }"
+            ></ng-container>
+          </div>
+        </div>
+      </div>
+      <ng-template
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+      >
+        <ng-container
+          *ngIf="
+            control.hasError(validation) &&
+            (control.dirty || control.touched || (!control.valid && submitted))
+          "
+        >
+          <div class="w-100 fv-plugins-message-container">
+            <span role="alert" class="text-danger">
+              {{ message }}
+            </span>
+          </div>
+        </ng-container>
+      </ng-template>
+      <div class="separator my-3 opacity-75"></div>
+      <div class="row mb-6">
+        <label class="col-lg-3 col-form-label fw-bold fs-6"
+          >شريط الاخبار
+        </label>
+        <div class="col-lg-1 d-flex align-items-center">
+          <div class="form-check form-check-solid form-switch fv-row">
+            <input
+              class="form-check-input w-45px h-30px"
+              type="checkbox"
+              formControlName="ChkNewsTicker"
+            /><label class="form-check-label"></label>
+          </div>
+        </div>
+        <label class="col-lg-3 col-form-label fw-bold fs-6"
+          >الأولي - رئيسي
+        </label>
+        <div class="col-lg-1 d-flex align-items-center">
+          <div class="form-check form-check-solid form-switch fv-row">
+            <input
+              class="form-check-input w-45px h-30px"
+              type="checkbox"
+              formControlName="ChkTopNews"
+            /><label class="form-check-label"></label>
+          </div>
+        </div>
+        <label class="col-lg-3 col-form-label fw-bold fs-6"
+          >الأولي - رئيسي2
+        </label>
+        <div class="col-lg-1 d-flex align-items-center">
+          <div class="form-check form-check-solid form-switch fv-row">
+            <input
+              class="form-check-input w-45px h-30px"
+              type="checkbox"
+              formControlName="ChkReadNow"
+            /><label class="form-check-label"></label>
+          </div>
+        </div>
+        <label class="col-lg-3 col-form-label fw-bold fs-6">تثبيت الخبر </label>
+        <div class="col-lg-1 d-flex align-items-center">
+          <div class="form-check form-check-solid form-switch fv-row">
+            <input
+              class="form-check-input w-45px h-30px"
+              type="checkbox"
+              formControlName="ChkIsInstall"
+            /><label class="form-check-label"></label>
+          </div>
+        </div>
+        <label class="col-lg-3 col-form-label fw-bold fs-6">صور </label>
+        <div class="col-lg-1 d-flex align-items-center">
+          <div class="form-check form-check-solid form-switch fv-row">
+            <input
+              class="form-check-input w-45px h-30px"
+              type="checkbox"
+              formControlName="ChkIsImage"
+            /><label class="form-check-label"></label>
+          </div>
+        </div>
+        <label class="col-lg-3 col-form-label fw-bold fs-6"> اخبار خاصة </label>
+        <div class="col-lg-1 d-flex align-items-center">
+          <div class="form-check form-check-solid form-switch fv-row">
+            <input
+              class="form-check-input w-45px h-30px"
+              type="checkbox"
+              formControlName="ChkIsAkhbarKhassa"
+            /><label class="form-check-label"></label>
+          </div>
+        </div>
+        <label class="col-lg-3 col-form-label fw-bold fs-6">
+          رئيسية الباب
+        </label>
+        <div class="col-lg-1 d-flex align-items-center">
+          <div class="form-check form-check-solid form-switch fv-row">
+            <input
+              class="form-check-input w-45px h-30px"
+              type="checkbox"
+              formControlName="ChkTopNewCategory"
+            /><label class="form-check-label"></label>
+          </div>
+        </div>
+        <label class="col-lg-3 col-form-label fw-bold fs-6">
+          رئيسية القسم
+        </label>
+        <div class="col-lg-1 d-flex align-items-center">
+          <div class="form-check form-check-solid form-switch fv-row">
+            <input
+              class="form-check-input w-45px h-30px"
+              type="checkbox"
+              formControlName="ChkTopNewSection"
+            /><label class="form-check-label"></label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-6">
+        <label class="col-lg-3 col-form-label fw-bold fs-6">نشر في</label>
+        <app-date-time-picker
+          (dateEmitter)="receiver('date', $event)"
+        ></app-date-time-picker>
+      </div>
+      <div class="separator my-3 opacity-75"></div>
+      <div class="d-flex justify-content-center gap-3">
+        <div class="py-6">
+          <div class="text-center d-flex justify-content-center">
+            <button
+              type="button"
+              class="btn btn-primary"
+              type="submit"
+              [disabled]="isLoading$ | async"
+              (click)="addNew(4)"
+            >
+              نشر مؤرخ
+              <app-keenicon
+                name="notepad-bookmark"
+                class="fs-1 mx-1 text-white"
+              ></app-keenicon>
+            </button>
+          </div>
+        </div>
+        <div class="py-6">
+          <div class="text-center d-flex justify-content-center">
+            <button
+              type="button"
+              class="btn btn-primary"
+              type="submit"
+              [disabled]="isLoading$ | async"
+              (click)="addNew(2)"
+            >
+              حفظ وتمرير
+              <app-keenicon
+                name="file-left"
+                class="fs-1 mx-1 text-white"
+              ></app-keenicon>
+            </button>
+          </div>
+        </div>
+        <div class="py-6">
+          <div class="text-center d-flex justify-content-center">
+            <button
+              type="button"
+              class="btn btn-primary"
+              type="submit"
+              [disabled]="isLoading$ | async"
+              (click)="addNew(1)"
+            >
+              حفظ
+              <app-keenicon
+                name="file-up"
+                class="fs-1 mx-1 text-white"
+              ></app-keenicon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="py-6">
+        <div class="text-center d-flex justify-content-center">
+          <button
+            type="button"
+            class="btn btn-danger"
+            type="submit"
+            [disabled]="isLoading$ | async"
+            (click)="addNew(3)"
+          >
+            حفظ ونشر
+            <app-keenicon
+              name="file-added"
+              class="fs-1 mx-1 text-white"
+            ></app-keenicon>
+          </button>
+        </div>
+      </div>
+    </form>
+    }
+  </div>
+</div>

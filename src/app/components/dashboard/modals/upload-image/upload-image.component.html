@@ -1,0 +1,108 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <form
+    *ngIf="uploadImageForm"
+    [formGroup]="uploadImageForm"
+    novalidate="novalidate"
+  >
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label fw-bold fs-6">اسم الألبوم</label>
+      <div class="col-lg-4">
+        <select
+          class="form-select form-select-solid"
+          data-kt-select2="true"
+          data-placeholder="Select option"
+          data-allow-clear="true"
+          (change)="getGalleryByType($event)"
+        >
+          @for(item of galleryTypes; track item; let idx = $index;){
+          <option value="{{ item.galleryTypeID }}">
+            {{ item.galleryTypeTitle }}
+          </option>
+          }
+        </select>
+      </div>
+      <div class="col-lg-4">
+        <select
+          class="form-select form-select-solid"
+          data-kt-select2="true"
+          data-placeholder="Select option"
+          data-allow-clear="true"
+          formControlName="subCategoryId"
+        >
+          @if(gallery.length){ @for(item of gallery; track item; let idx =
+          $index){
+          <option value="{{ item.galleryID }}">
+            {{ item.galleryTitle }}
+          </option>
+          } }@else {
+          <option value="">لا يوجد بيانات</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label fw-bold fs-6">
+        <span class="required">تعليق</span>
+      </label>
+      <div class="col-lg-8 fv-row">
+        <textarea
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          name="contactPhone"
+          formControlName="Caption"
+        ></textarea>
+      </div>
+    </div>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label fw-bold fs-6">
+        <span class="required">صورة</span>
+      </label>
+      <div class="col-lg-10 fv-row mb-6">
+        <app-image
+          [selectedImage]="editedImage"
+          (selectedImageEmitter)="recieveImage($event)"
+        ></app-image>
+      </div>
+      <!-- <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="4 / 3"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded($event)"
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"
+      ></image-cropper> -->
+    </div>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label fw-bold fs-6"
+        >العلامة المائية</label
+      >
+      <div class="col-lg-1 d-flex align-items-center">
+        <div class="form-check form-check-solid form-switch fv-row">
+          <input
+            class="form-check-input w-45px h-30px"
+            type="checkbox"
+            id="allowmarketing"
+            formControlName="CHKWaterMark"
+          /><label class="form-check-label"></label>
+        </div>
+      </div>
+    </div>
+  </form>
+</app-modal>
+<button
+  class="btn"
+  [ngClass]="[
+    type !== 'upload' ? 'btn-sm' : 'd-flex align-items-center gap-3',
+    type === 'edit' ? 'my-2 w-100' : '',
+    type === 'upload-with-album'
+      ? 'btn btn-sm btn-outline-light border me-2'
+      : 'btn-primary'
+  ]"
+  (click)="openModal()"
+>
+  @if(type==='upload'){ رفع صورة
+  <app-keenicon name="file-up" class="fs-1 text-white"></app-keenicon>
+  }@else if(type==='edit'){تعديل}@else{ أضافة صورة }
+</button>

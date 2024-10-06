@@ -1,0 +1,36 @@
+@if(items && items.length){ @for(item of items; track item; let idx = $index){
+<div class="d-flex align-items-center mb-8 cursor-pointer" cdkDrag>
+  <span
+    class="bullet bullet-vertical h-40px mx-5"
+    [ngClass]="idx < 10 ? 'bg-' + colors[0] : 'bg-' + colors[1]"
+  ></span>
+  <div class="flex-grow-1">
+    <a href="#" class="text-gray-800 text-hover-primary fw-bolder fs-6">
+      {{ item.title }}
+    </a>
+    <span class="text-muted fw-bold d-block">{{ item.secTitle }}</span>
+  </div>
+  <span
+    *ngIf="item.publishDate"
+    class="badge fs-8 fw-bolder"
+    [ngClass]="
+      idx < 10 ? 'badge-light-' + colors[0] : 'badge-light-' + colors[1]
+    "
+    >{{ timeSince(item.publishDate) }}</span
+  >
+</div>
+} }@else { @if(isLoading){
+<span
+  clas="indicator-progress"
+  [style.textAlign]="'center'"
+  [style.display]="'block'"
+>
+  <p class="mx-auto text-gray-900 fw-bolder fs-6 d-inline">
+    انتظر قليلا...{{ " " }}
+  </p>
+  <span class="spinner-border spinner-border-sm align-middle me-1"></span>
+</span>
+}@else{
+
+<p class="text-center text-gray-900 fw-bolder fs-6">لا يوجد بيانات</p>
+} }

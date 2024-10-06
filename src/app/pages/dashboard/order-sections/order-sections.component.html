@@ -1,0 +1,39 @@
+<div class="card card-xl-stretch mb-xl-8">
+  <div class="card-header justify-content-end border-0">
+    <div class="card-toolbar">
+      <button
+        type="button"
+        class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+        data-kt-menu-trigger="click"
+        data-kt-menu-placement="bottom-end"
+        data-kt-menu-flip="top-end"
+      >
+        <app-keenicon name="category" class="fs-2"></app-keenicon>
+      </button>
+      <app-dropdown-menu
+        [filterOptions]="filterOptions"
+        (filterOptionsEmitter)="recieveFilterOptions($event)"
+      ></app-dropdown-menu>
+      <button
+        (click)="orderSections()"
+        [disabled]="isLoading$ | async"
+        class="btn btn-sm btn-primary d-flex align-items-center gap-3 me-2"
+      >
+        حفظ
+      </button>
+    </div>
+  </div>
+  <div class="card-body pt-2">
+    <div
+      cdkDropList
+      #newsList="cdkDropList"
+      [cdkDropListData]="sections"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <app-dragable-list
+        [items]="sections"
+        [isLoading]="isLoading$ | async"
+      ></app-dragable-list>
+    </div>
+  </div>
+</div>

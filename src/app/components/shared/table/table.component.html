@@ -1,0 +1,114 @@
+<div class="table-responsive">
+  <table
+    class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4"
+  >
+    <thead>
+      <tr class="fw-bolder text-muted">
+        @if(tableOptions.isCheckbox){
+        <th class="w-25px">
+          <div
+            class="form-check form-check-sm form-check-custom form-check-solid"
+          >
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              data-kt-check="true"
+              data-kt-check-target=".widget-9-check"
+            />
+          </div>
+        </th>
+        } @for(col of tableOptions.headerCols; track col){
+        <th [style.minWidth]="col.width">{{ col.title }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @if(items&&items.length){ @for(item of items; track item; let idx =
+      $index; let count = $count){
+      <tr>
+        @if(tableOptions.isCheckbox){
+        <td>
+          <div
+            class="form-check form-check-sm form-check-custom form-check-solid"
+          >
+            <input
+              class="form-check-input widget-9-check"
+              type="checkbox"
+              value="{{ item.id }}"
+              (click)="onSelect($event)"
+            />
+          </div>
+        </td>
+        }
+        <td>
+          <div class="d-flex align-items-center">
+            <div class="d-flex justify-content-start flex-column">
+              <a
+                href="#"
+                class="text-gray-900 fw-bolder text-hover-primary fs-6"
+              >
+                {{ item.title }}
+              </a>
+              @if(item.category){<span
+                class="text-muted fw-bold text-muted d-block fs-7"
+              >
+                {{ item.category }} </span
+              >}
+            </div>
+          </div>
+        </td>
+        @if(item.time){
+        <td>
+          <span href="#" class="text-gray-900 fw-bolder d-block fs-7">
+            {{ convertToArabicTime(item.time) }}
+          </span>
+        </td>
+        } @if(item.date){
+        <td class="text-end">
+          <div class="d-flex flex-column w-100">
+            <div class="d-flex flex-stack">
+              <span class="text-gray-900 fs-7 fw-bolder">{{
+                convertToFullDate(item.date)
+              }}</span>
+            </div>
+          </div>
+        </td>
+        } @if(item.dateWithTime){
+        <td class="text-end">
+          <div class="d-flex flex-column w-100">
+            <div class="d-flex flex-stack">
+              <span class="text-gray-900 fs-7 fw-bolder">{{
+                timeSinceInArabic(item.dateWithTime)
+              }}</span>
+            </div>
+          </div>
+        </td>
+        }
+        <td>
+          <div class="d-flex justify-content-end flex-shrink-0">
+            @for(action of tableOptions.actions; track action){
+            <button
+              (click)="action.click(item.id)"
+              class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm mx-1"
+            >
+              <app-keenicon
+                [name]="action.icon"
+                [title]="action.title"
+                class="fs-3"
+              ></app-keenicon>
+            </button>
+            }
+          </div>
+        </td>
+      </tr>
+      } }@else {
+      <tr>
+        <td colspan="4" class="text-center text-gray-900 fw-bolder fs-6">
+          لا يوجد بيانات
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,46 @@
+<div *ngIf="pagination" class="d-flex flex-stack flex-wrap">
+  <div class="fs-6 fw-bold text-gray-700">
+    معروض 1 -
+    {{ pagination.count && pagination.count < 25 ? pagination.count : 25 }} من
+    {{ pagination.count }}
+  </div>
+
+  <ul class="pagination">
+    <li
+      class="page-item next"
+      (click)="
+        setCurrent(
+          pagination.current !== 1 ? pagination.current - 1 : pagination.current
+        )
+      "
+    >
+      <a class="page-link cursor-pointer">
+        <i class="next"></i>
+      </a>
+    </li>
+    @for(page of pagination.pages;track page){
+    <li
+      class="page-item"
+      [ngClass]="page === pagination.current ? 'active' : ''"
+      (click)="setCurrent(page)"
+    >
+      <a class="page-link cursor-pointer"> {{ page }} </a>
+    </li>
+    }
+
+    <li
+      class="page-item previous"
+      (click)="
+        setCurrent(
+          pagination.pages && pagination.current !== pagination.pages.length
+            ? pagination.current + 1
+            : pagination.current
+        )
+      "
+    >
+      <a class="page-link cursor-pointer">
+        <i class="previous"></i>
+      </a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,54 @@
+<div class="card card-xl-stretch mb-xl-8">
+  <!-- begin::Header -->
+  <div class="card-header justify-content-end border-0">
+    <!-- <h3 class="card-title fw-bolder text-gray-900">Todo</h3> -->
+    <div class="card-toolbar">
+      <!-- begin::Menu -->
+      <button
+        type="button"
+        class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+        data-kt-menu-trigger="click"
+        data-kt-menu-placement="bottom-end"
+        data-kt-menu-flip="top-end"
+      >
+        <app-keenicon name="category" class="fs-2"></app-keenicon>
+      </button>
+      <app-dropdown-menu
+        [filterOptions]="filterOption"
+        (filterOptionsEmitter)="recieveFilterOption($event)"
+      ></app-dropdown-menu>
+      <button
+        (click)="saveOrder()"
+        class="btn btn-sm btn-primary d-flex align-items-center gap-3 me-2"
+      >
+        @if(isLoading$ | async){
+        <span class="indicator-progress" [style.display]="'block'">
+          جاري التحميل...
+          <span
+            class="spinner-border spinner-border-sm align-middle ms-2"
+          ></span>
+        </span>
+        }@else { حفظ }
+      </button>
+      <!-- end::Menu -->
+    </div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+  <div class="card-body pt-2">
+    <!-- begin::Item -->
+    <div
+      cdkDropList
+      #newsList="cdkDropList"
+      [cdkDropListData]="items"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <app-dragable-list
+        [items]="items"
+        [isLoading]="isLoading$ | async"
+      ></app-dragable-list>
+    </div>
+    <!-- end:Item -->
+  </div>
+  <!-- end::Body -->
+</div>

@@ -1,0 +1,42 @@
+@import "ngx-toastr/toastr";
+
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/sass/style.scss";
+// Replace above style with this css file to enable RTL styles
+// @import "./assets/css/style.rtl";
+@import "./assets/sass/plugins.scss";
+// @import "./assets/css/style.rtl.css";
+@import "./assets/sass/style.angular.scss";
+
+// Keenicons - High quality and pixel perfect font icons available in 3 styles, duotone, outline and solid for Metronic elements
+@import "./assets/plugins/keenicons/duotone/style.css";
+@import "./assets/plugins/keenicons/outline/style.css";
+@import "./assets/plugins/keenicons/solid/style.css";
+@import "@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
+
+.daterangepicker {
+  position: absolute;
+  direction: rtl;
+  display: none;
+  .ranges {
+    display: none;
+  }
+  .drp-calendar.left {
+    .calendar-table {
+      text-align: center;
+    }
+    .calendar-time {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row-reverse;
+    }
+  }
+  .drp-buttons {
+    text-align: end;
+  }
+}
+
+.modal-dialog {
+  max-width: 800px;
+}

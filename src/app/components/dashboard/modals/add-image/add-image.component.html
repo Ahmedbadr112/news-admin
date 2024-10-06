@@ -1,0 +1,87 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <div class="row mb-6">
+    <div class="col-lg-3">
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+        (change)="getGalleryByType($event)"
+      >
+        @for(item of galleryTypes; track item; let idx = $index;){
+        <option value="{{ item.galleryTypeID }}">
+          {{ item.galleryTypeTitle }}
+        </option>
+        }
+      </select>
+    </div>
+    <div class="col-lg-3">
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+      >
+        @if(gallery.length){ @for(item of gallery; track item; let idx =
+        $index){
+        <option value="{{ item.galleryID }}">
+          {{ item.galleryTitle }}
+        </option>
+        } }@else {
+        <option value="">لا يوجد بيانات</option>
+        }
+      </select>
+    </div>
+    <div class="col-lg-3">
+      <input
+        type="text"
+        class="form-control form-control-lg form-control-solid"
+        placeholder="للبحث اكتب هنا.."
+        name="contactPhone"
+      />
+    </div>
+    <div class="col-lg-2">
+      <button
+        type="button"
+        class="btn btn-primary w-100 border-0 d-flex align-items-center gap-3 justify-content-center"
+        type="submit"
+        [disabled]="isLoading$ | async"
+      >
+        بحث
+        <app-keenicon name="magnifier" class="fs-1 text-white"></app-keenicon>
+      </button>
+    </div>
+  </div>
+  <div class="row g-6 g-xl-9 mb-6 mb-xl-9">
+    @if(isLoading$ | async){<span
+      clas="indicator-progress"
+      [style.textAlign]="'center'"
+      [style.display]="'block'"
+    >
+      <p class="mx-auto text-gray-900 fw-bolder fs-6 d-inline">
+        انتظر قليلا...{{ " " }}
+      </p>
+      <span
+        class="spinner-border spinner-border-sm align-middle me-1"
+      ></span> </span
+    >}@else{ @for(item of images; track item){
+    <div class="col-12 col-sm-12 col-xl-4">
+      <app-image-card
+        [image]="item"
+        (selectedImageEmitter)="recieveSelectedImage($event)"
+      ></app-image-card>
+    </div>
+    }}
+  </div>
+  <app-pagination
+    [pagination]="pagination"
+    (pageChange)="recieveChangedPage($event)"
+  ></app-pagination>
+</app-modal>
+<button
+  class="btn btn-primary d-flex align-items-center gap-3"
+  (click)="openModal()"
+>
+  اختيار صورة
+  <app-keenicon name="file" class="fs-1 text-white"></app-keenicon>
+</button>

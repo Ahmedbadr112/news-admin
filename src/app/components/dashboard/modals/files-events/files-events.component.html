@@ -1,0 +1,28 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <div class="card">
+    <div class="card-header border-0">
+      <div
+        class="d-flex flex-nowrap align-items-center justify-content-between gap-5 w-100"
+      >
+        <div class="card-toolbar">
+          <button
+            (click)="deleteFilesEvents()"
+            class="btn btn-danger btn-sm mx-2"
+          >
+            حذف
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body pt-2">
+      <app-group-list
+        [groupListOptions]="groupListOptions"
+        [items]="events"
+        [isLoading]="isLoading$ | async"
+      ></app-group-list>
+    </div>
+  </div>
+</app-modal>
+<button class="btn btn-sm mx-2 btn-outline-light border" (click)="openModal()">
+  أحداث التغطيات
+</button>

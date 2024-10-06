@@ -1,0 +1,60 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <form [formGroup]="urgentContentForm" novalidate="novalidate">
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6">الخبر</label>
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="Title"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'الخبر مطلوب',
+            control: urgentContentForm.controls['Title']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control.hasError(validation) &&
+          (control.dirty || control.touched || (!control.valid && submitted))
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <span role="alert" class="text-danger">
+            {{ message }}
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label fw-bold fs-6">خبر عاجل</label>
+      <div class="col-lg-1 d-flex align-items-center">
+        <div class="form-check form-check-solid form-switch fv-row">
+          <input
+            class="form-check-input w-45px h-30px"
+            formControlName="isUrgentNew"
+            type="checkbox"
+          /><label class="form-check-label"></label>
+        </div>
+      </div>
+    </div>
+  </form>
+</app-modal>
+<button
+  class="btn btn-sm mx-2"
+  [ngClass]="type === 'edit' ? 'btn-outline-light border' : 'btn-primary'"
+  (click)="openModal()"
+>
+  @if(type === 'edit'){ تعديل }@else{ اضافة محتوي عاجل }
+</button>

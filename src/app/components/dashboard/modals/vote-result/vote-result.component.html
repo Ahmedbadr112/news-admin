@@ -1,0 +1,47 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <div class="d-flex align-items-center flex-column w-75 mx-auto">
+    <div
+      class="d-flex justify-content-between fw-bold fs-6 text-dark opacity-75 w-100 mt-auto mb-2"
+    >
+      <span>43 Pending</span>
+      <span>72%</span>
+    </div>
+
+    <div class="h-8px mx-3 w-100 bg-primary bg-opacity-50 rounded">
+      <div
+        class="bg-primary rounded h-8px"
+        role="progressbar"
+        style="width: 72%"
+        aria-valuenow="50"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
+    </div>
+  </div>
+  <div class="mt-10 d-flex align-items-center flex-column w-75 mx-auto">
+    <div
+      class="d-flex justify-content-between fw-bold fs-6 text-dark opacity-75 w-100 mt-auto mb-2"
+    >
+      <span>43 Pending</span>
+      <span>72%</span>
+    </div>
+
+    <div class="h-8px mx-3 w-100 bg-primary bg-opacity-50 rounded">
+      <div
+        class="bg-primary rounded h-8px"
+        role="progressbar"
+        style="width: 72%"
+        aria-valuenow="50"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
+    </div>
+  </div>
+</app-modal>
+
+<button
+  class="btn btn-sm mx-2 btn btn-outline-secondary border"
+  (click)="openModal()"
+>
+  النتائج {{ votes }}
+</button>

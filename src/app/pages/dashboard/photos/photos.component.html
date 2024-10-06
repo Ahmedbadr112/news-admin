@@ -1,0 +1,109 @@
+<div class="card mb-5 mb-xl-10">
+  <div class="card-header justify-content-end border-0">
+    <div class="w-100 d-flex gap-2 my-5">
+      <div class="form-check form-check-sm form-check-custom form-check-solid">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="toggleSelectAll($event)"
+          [checked]="images.length === selectedImages.length"
+          data-kt-check="true"
+          data-kt-check-target=".widget-9-check"
+        />
+        <span class="me-2">الكل</span>
+      </div>
+      <div class="flex-grow-1 position-relative">
+        <app-keenicon
+          name="magnifier"
+          class="fs-2 position-absolute top-50 start-0 ms-5 translate-middle-y"
+        ></app-keenicon>
+        <input
+          type="text"
+          class="form-control form-control-solid pe-5"
+          name="search"
+          placeholder="ابحث عن الصور من هنا.."
+          (input)="onSearch($event)"
+        />
+      </div>
+      <div class="card-toolbar">
+        <button
+          type="button"
+          class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+          data-kt-menu-trigger="click"
+          data-kt-menu-placement="bottom-end"
+          data-kt-menu-flip="top-end"
+        >
+          <app-keenicon name="category" class="fs-2"></app-keenicon>
+        </button>
+        <app-dropdown-menu
+          [filterOptions]="filterOption"
+          (filterOptionsEmitter)="recieveFilterOption($event)"
+        ></app-dropdown-menu>
+        <form [formGroup]="moveForm" class="d-flex align-items-center gap-2">
+          <select
+            class="form-select form-select-solid py-2 w-125px"
+            data-kt-select2="true"
+            data-placeholder="Select option"
+            data-allow-clear="true"
+            (change)="onGalleryTypeChange($event)"
+            formControlName="galleryTypeId"
+          >
+            @for(type of galleryTypes; track type; let idx = $index){
+            <option value="{{ type.galleryTypeID }}">
+              {{ type.galleryTypeTitle }}
+            </option>
+            }
+          </select>
+          <select
+            class="form-select form-select-solid py-2 w-125px"
+            data-kt-select2="true"
+            data-placeholder="Select option"
+            data-allow-clear="true"
+            formControlName="galleryId"
+          >
+            @for(gallery of galleries; track gallery; let idx = $index){
+            <option value="{{ gallery.galleryId }}">
+              {{ gallery.galleryTitle }}
+            </option>
+            }
+          </select>
+          <button class="btn btn-sm btn-primary text-center ms-2" type="submit">
+            نقل
+          </button>
+        </form>
+        <app-upload-image [type]="'link'"></app-upload-image>
+        <button class="btn btn-sm btn-danger text-center me-2">حذف</button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body border-top p-9 row">
+    @if($isLoading|async){
+    <span
+      clas="indicator-progress"
+      [style.textAlign]="'center'"
+      [style.display]="'block'"
+    >
+      <p class="mx-auto text-gray-900 fw-bolder fs-6 d-inline">
+        انتظر قليلا...{{ " " }}
+      </p>
+      <span class="spinner-border spinner-border-sm align-middle me-1"></span>
+    </span>
+    }@else{ @for(image of images; track image){
+    <div class="col-12 col-sm-6 col-xl-3 mb-4">
+      <app-image-card
+        (eventEmitter)="getImages()"
+        [type]="'link'"
+        [image]="image"
+        (selectedImageEmitter)="toggleSelect($event)"
+        [isAllImagesSelected]="images.length === selectedImages.length"
+      ></app-image-card>
+    </div>
+    } }
+  </div>
+  <div class="card-footer">
+    <app-pagination
+      [pagination]="pagination"
+      (pageChange)="recieveChangedPage($event)"
+    ></app-pagination>
+  </div>
+</div>

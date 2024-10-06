@@ -1,0 +1,26 @@
+<div class="card card-xl-stretch mb-xl-8">
+  <div class="card-header justify-content-end align-items-center border-0">
+    <div class="card-toolbar">
+      <button
+        type="button"
+        class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+        data-kt-menu-trigger="click"
+        data-kt-menu-placement="bottom-end"
+        data-kt-menu-flip="top-end"
+      >
+        <app-keenicon name="category" class="fs-2"></app-keenicon>
+      </button>
+      <app-dropdown-menu
+        [filterOptions]="filterOptions"
+        (filterOptionsEmitter)="recieveFilterOption($event)"
+      ></app-dropdown-menu>
+    </div>
+  </div>
+  <div class="card-body pt-2">
+    <app-group-list
+      [items]="news"
+      [groupListOptions]="groupListOptions"
+      [isLoading]="isLoading$ | async"
+    ></app-group-list>
+  </div>
+</div>

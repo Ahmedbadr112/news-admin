@@ -1,0 +1,51 @@
+<div class="card">
+  <div class="card-header border-0">
+    <div
+      class="d-flex flex-nowrap align-items-center justify-content-between gap-5 w-100"
+    >
+      <form class="flex-grow-1 position-relative" autoComplete="off">
+        <app-keenicon
+          name="magnifier"
+          class="fs-2 position-absolute top-50 start-0 ms-5 translate-middle-y"
+        ></app-keenicon>
+        <input
+          type="text"
+          class="form-control form-control-solid pe-5"
+          name="search"
+          placeholder="ابحث عن الخبر المنشور من هنا.."
+          (input)="onSearch($event)"
+        />
+      </form>
+      <div class="card-toolbar">
+        <button
+          type="button"
+          class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+          data-kt-menu-trigger="click"
+          data-kt-menu-placement="bottom-end"
+          data-kt-menu-flip="top-end"
+        >
+          <app-keenicon name="category" class="fs-2"></app-keenicon>
+        </button>
+        <app-dropdown-menu
+          [filterOptions]="filterOption"
+          (filterOptionsEmitter)="recieveFilterOption($event)"
+        ></app-dropdown-menu>
+      </div>
+    </div>
+  </div>
+  <div class="card-body pt-2">
+    <app-group-list
+      [groupListOptions]="groupListOptions"
+      [items]="news"
+      [isLoading]="isLoading$ | async"
+    ></app-group-list>
+  </div>
+  @if(pagination){
+  <div class="card-footer pt-5">
+    <app-pagination
+      (pageChange)="recieveChangedPage($event)"
+      [pagination]="pagination"
+    ></app-pagination>
+  </div>
+  }
+</div>

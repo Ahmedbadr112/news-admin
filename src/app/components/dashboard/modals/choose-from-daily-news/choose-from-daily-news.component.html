@@ -1,0 +1,89 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <div class="card card-xl-stretch mb-xl-8">
+    <!-- begin::Header -->
+    <div
+      class="card-header justify-content-between align-items-center border-0"
+    >
+      <label
+        class="checkbox checkbox-xl checkbox-inline ms-2 d-flex align-items-center"
+      >
+        <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="toggleSelectAll($event)"
+          [checked]="items.length === selectedItems.length"
+          data-kt-check="true"
+          data-kt-check-target=".widget-9-check"
+        />
+        <span class="me-2">الكل</span>
+      </label>
+      <form
+        [formGroup]="searchForm"
+        class="flex-grow-1 d-flex align-items-center justify-content-around"
+        autoComplete="off"
+      >
+        <div class="flex-grow-1 position-relative">
+          <input
+            type="text"
+            class="form-control form-control-solid pe-5"
+            name="search"
+            placeholder="ابحث عن الأخبار اليومية من هنا.."
+            formControlName="search"
+          />
+        </div>
+        <div>
+          <select
+            #albumSelect
+            class="form-select form-select-solid"
+            (change)="onCategoryChange($event)"
+            formControlName="categoryId"
+          >
+            <option value="">الباب</option>
+            @for(item of categories; track item;){
+            <option value="{{ item.categoryID }}">
+              {{ item.name }}
+            </option>
+            }
+          </select>
+        </div>
+        <div>
+          <select
+            #albumSelect
+            class="form-select form-select-solid"
+            formControlName="subCategoryId"
+          >
+            <option value="">الباب الفرعي</option>
+            @for(item of subCategories; track item;){
+            <option value="{{ item.sectionID }}">
+              {{ item.secTitle }}
+            </option>
+            }
+          </select>
+        </div>
+        <button class="btn btn-primary btn-sm mx-2" (click)="getDailyNews()">
+          بحث
+        </button>
+      </form>
+      <div class="card-toolbar">
+        <button class="btn btn-primary btn-sm" (click)="addUrgentContent()">
+          اضافة
+        </button>
+      </div>
+    </div>
+    <!-- end::Header -->
+    <!-- begin::Body -->
+    <div class="card-body pt-2">
+      <app-group-list
+        [items]="items"
+        [groupListOptions]="groupListOptions"
+        [selectedItems]="selectedItems"
+        [isLoading]="isLoading$ | async"
+      ></app-group-list>
+    </div>
+    <!-- end::Body -->
+  </div>
+  <app-pagination></app-pagination>
+</app-modal>
+<button class="btn btn-primary btn-sm mx-2" (click)="openModal()">
+  اضافة خبر عاجل من المحتويات اليومية
+</button>

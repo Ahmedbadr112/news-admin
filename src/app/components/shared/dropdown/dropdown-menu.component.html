@@ -1,0 +1,199 @@
+<div class="px-7 py-5">
+  <div class="fs-5 text-gray-900 fw-bolder">اظهار حسب</div>
+</div>
+
+<div class="separator border-gray-200"></div>
+
+<form [formGroup]="filterForm" (ngSubmit)="onFilter()" class="px-7 py-5">
+  @if(filterOptions.isType){
+  <div class="mb-10">
+    <label class="form-label fw-bold">نوع الخبر:</label>
+    <div>
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+        formControlName="typeId"
+      >
+        @for(item of contentTypes; track item; let idx = $index){
+        <option value="{{ item.typeId }}">{{ item.contentType1 }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  } @if(filterOptions.isStatus){
+  <div class="mb-10">
+    <label class="form-label fw-bold">المرحلة:</label>
+    <div>
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+        formControlName="statusId"
+      >
+        @for(item of roles; track item; let idx = $index){
+        <option value="{{ item.roleId }}">{{ item.roleName }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  } @if(filterOptions.isRoles){
+  <div class="mb-10">
+    <label class="form-label fw-bold">الدور:</label>
+    <div>
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+        formControlName="roleId"
+      >
+        @for(item of rolesPassList; track item; let idx = $index){
+        <option value="{{ idx }}">{{ item.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  } @if(filterOptions.isCategories){
+  <div class="mb-10">
+    <label class="form-label fw-bold">الباب:</label>
+    <div>
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+        (change)="
+          filterOptions.isSubCategories &&
+            onSelectedNewsCategoriesChange($event)
+        "
+        formControlName="categoryId"
+      >
+        <option></option>
+        @for(item of categories; track item; let idx = $index){
+        <option value="{{ item.categoryID }}">{{ item.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  } @if(filterOptions.isSubCategories){
+  <div class="mb-10">
+    <label class="form-label fw-bold">الباب الفرعي:</label>
+    <div>
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+        formControlName="subCategoryId"
+      >
+        <option value=""></option>
+        @for(item of subCategories; track item; let idx = $index){
+        <option value="{{ item.sectionID }}">{{ item.secTitle }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  }@if(filterOptions.isOrderCategories){
+  <div class="mb-10">
+    <label class="form-label fw-bold">الباب:</label>
+    <div>
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+        (change)="
+          filterOptions.isOrderSubCategories &&
+            onSelectedNewsOrderCategoriesChange($event)
+        "
+        formControlName="orderCategoryId"
+      >
+        <option></option>
+        @for(item of orderCategories; track item; let idx = $index){
+        <option value="{{ item.id }}">{{ item.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  }@if(filterOptions.isOrderSubCategories){
+  <div class="mb-10">
+    <label class="form-label fw-bold">الباب الفرعي:</label>
+    <div>
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+        formControlName="orderSubCategoryId"
+        [disabled]="!!orderSubCategories.length"
+      >
+        <option></option>
+        @for(item of orderSubCategories; track item; let idx = $index){
+        <option value="{{ item.sectionID }}">{{ item.secTitle }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  }@if(filterOptions.isGalleryType){
+  <div class="mb-10">
+    <label class="form-label fw-bold">نوع الألبوم:</label>
+    <div>
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+        formControlName="galleryTypeId"
+        (click)="filterOptions.isGallery && onGalleryTypeChange($event)"
+      >
+        <option></option>
+        @for(item of galleryTypes; track item; let idx = $index){
+        <option value="{{ item.galleryTypeID }}">
+          {{ item.galleryTypeTitle }}
+        </option>
+        }
+      </select>
+    </div>
+  </div>
+  }@if(filterOptions.isGallery){
+  <div class="mb-10">
+    <label class="form-label fw-bold">الألبوم:</label>
+    <div>
+      <select
+        class="form-select form-select-solid"
+        data-kt-select2="true"
+        data-placeholder="Select option"
+        data-allow-clear="true"
+        formControlName="galleryId"
+      >
+        <option></option>
+        @for(item of galleries; track item; let idx = $index){
+        <option value="{{ item.galleryID }}">
+          {{ item.galleryTitle }}
+        </option>
+        }
+      </select>
+    </div>
+  </div>
+  }
+  <div class="d-flex justify-content-end">
+    <button
+      type="submit"
+      class="btn btn-sm btn-primary"
+      data-kt-menu-dismiss="true"
+    >
+      اظهار
+    </button>
+    <button
+      type="reset"
+      (click)="reset()"
+      class="btn btn-sm btn-light btn-active-light-primary me-2"
+      data-kt-menu-dismiss="true"
+    >
+      مسح
+    </button>
+  </div>
+</form>

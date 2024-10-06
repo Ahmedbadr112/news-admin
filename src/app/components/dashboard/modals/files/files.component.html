@@ -1,0 +1,56 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <div class="card">
+    <div class="card-header border-0">
+      <div
+        class="d-flex flex-nowrap align-items-center justify-content-between gap-5 w-100"
+      >
+        <form class="flex-grow-1 position-relative">
+          <app-keenicon
+            name="magnifier"
+            class="fs-2 position-absolute top-50 start-0 ms-5 translate-middle-y"
+          ></app-keenicon>
+          <input
+            type="text"
+            class="form-control form-control-solid pe-5"
+            name="search"
+            autocomplete="off"
+            placeholder="ابحث عن الأخبار من هنا.."
+            (input)="onSearch($event)"
+          />
+        </form>
+        <div class="card-toolbar">
+          <button
+            type="button"
+            class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+            data-kt-menu-trigger="click"
+            data-kt-menu-placement="bottom-end"
+            data-kt-menu-flip="top-end"
+            title="تصفية"
+          >
+            <app-keenicon name="category" class="fs-2"></app-keenicon>
+          </button>
+          <app-dropdown-menu
+            [filterOptions]="filterOptions"
+            (filterOptionsEmitter)="recieveFilterOptions($event)"
+          ></app-dropdown-menu>
+          <button
+            (click)="deleteFilesEvents()"
+            class="btn btn-danger btn-sm mx-2"
+          >
+            حذف
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body pt-2">
+      <app-group-list
+        [groupListOptions]="groupListOptions"
+        [items]="events"
+        [isLoading]="isLoading$ | async"
+      ></app-group-list>
+    </div>
+  </div>
+</app-modal>
+<button class="btn btn-sm mx-2 btn-outline-light border" (click)="openModal()">
+  أحداث التغطيات
+</button>

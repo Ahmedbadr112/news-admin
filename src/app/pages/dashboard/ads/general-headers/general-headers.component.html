@@ -1,0 +1,71 @@
+<div class="card mb-5 mb-xl-10">
+  <div class="card-body border-top p-9">
+    <form [formGroup]="addGeneralHeadersForm" id="addNew" class="form">
+      <div class="row mb-6">
+        <label class="col-lg-2 col-form-label fw-bold fs-6">
+          <span class="required">General Headers</span>
+        </label>
+        <div class="col-lg-10 fv-row">
+          <div class="input-group mb-5">
+            <textarea
+              type="text"
+              class="form-control form-control-lg form-control-solid"
+              [ngClass]="generalHeaders.value.length ? 'rounded-start-0' : ''"
+              formControlName="Notes"
+              #generalHeaders
+            ></textarea>
+            @if(generalHeaders.value.length){
+            <span
+              class="input-group-text rounded-end-0 rounded-start"
+              id="basic-addon2"
+            >
+              {{ generalHeaders.value.length }}
+            </span>
+            }
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'general headers مطلوبة',
+                control: addGeneralHeadersForm.controls['Notes']
+              }"
+            ></ng-container>
+          </div>
+        </div>
+      </div>
+      <ng-template
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+      >
+        <ng-container
+          *ngIf="
+            control.hasError(validation) &&
+            (control.dirty || control.touched || (!control.valid && submitted))
+          "
+        >
+          <div class="w-100 fv-plugins-message-container">
+            <span role="alert" class="text-danger">
+              {{ message }}
+            </span>
+          </div>
+        </ng-container>
+      </ng-template>
+
+      <div class="py-6">
+        <div class="text-center d-flex justify-content-center">
+          <button
+            type="button"
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="isLoading$ | async"
+            (click)="addGeneralHeaders()"
+          >
+            حفظ
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

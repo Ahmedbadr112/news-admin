@@ -1,0 +1,25 @@
+<div class="card card-xl-stretch mb-xl-8">
+  <div class="card-header justify-content-between align-items-center border-0">
+    <div class="flex-grow-1 position-relative">
+      <app-keenicon
+        name="magnifier"
+        class="fs-2 position-absolute top-50 start-0 ms-5 translate-middle-y"
+      ></app-keenicon>
+      <input
+        type="text"
+        class="form-control form-control-solid pe-5"
+        name="search"
+        placeholder="ابحث عن تاج من هنا.."
+        autocomplete="off"
+        (input)="onSearch($event)"
+      />
+    </div>
+  </div>
+  <div class="card-body pt-2">
+    <app-group-list
+      [items]="tags"
+      [groupListOptions]="groupListOptions"
+      [isLoading]="isLoading$ | async"
+    ></app-group-list>
+  </div>
+</div>

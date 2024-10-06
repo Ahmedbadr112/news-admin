@@ -1,0 +1,449 @@
+<!--begin::Menu wrapper-->
+<div
+  id="kt_app_sidebar_menu_scroll"
+  class="scroll-y my-5 mx-3"
+  data-kt-scroll="true"
+  data-kt-scroll-activate="true"
+  data-kt-scroll-height="auto"
+  data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
+  data-kt-scroll-wrappers="#kt_app_sidebar_menu"
+  data-kt-scroll-offset="5px"
+  data-kt-scroll-save-state="true"
+>
+  <div
+    class="menu menu-column menu-rounded menu-sub-indention fw-semibold fs-6"
+    id="#kt_app_sidebar_menu"
+    data-kt-menu="true"
+    data-kt-menu-expand="false"
+  >
+    <div class="menu-item menu-accordion" data-kt-menu-trigger="click">
+      <span class="menu-link">
+        <span class="menu-icon">
+          <app-keenicon name="brush" class="fs-2"></app-keenicon>
+        </span>
+        <span class="menu-title">تحرير </span>
+        <span class="menu-arrow"></span>
+      </span>
+      <div
+        class="menu-sub menu-sub-accordion"
+        routerLinkActive="menu-active-bg"
+      >
+        <div class="menu-item">
+          <a
+            class="menu-link without-sub"
+            routerLinkActive="active"
+            routerLink="/dashboard/add-new"
+          >
+            <span class="menu-bullet">
+              <span class="bullet bullet-dot"></span>
+            </span>
+            <span class="menu-title">اضافة مادة </span>
+          </a>
+        </div>
+        <div class="menu-item">
+          <a
+            class="menu-link without-sub"
+            routerLinkActive="active"
+            routerLink="/dashboard/add-new-with-id"
+          >
+            <span class="menu-bullet">
+              <span class="bullet bullet-dot"></span>
+            </span>
+            <span class="menu-title">اضافة خبر برقم</span>
+            <!-- <span class="menu-arrow"></span> -->
+          </a>
+        </div>
+        <div class="menu-item">
+          <a
+            class="menu-link without-sub"
+            routerLinkActive="active"
+            routerLink="/dashboard/all-votes"
+          >
+            <span class="menu-bullet">
+              <span class="bullet bullet-dot"></span>
+            </span>
+            <span class="menu-title">استطلاع رأي</span>
+          </a>
+        </div>
+        <div class="menu-item">
+          <a
+            class="menu-link without-sub"
+            routerLinkActive="active"
+            routerLink="/dashboard/publish"
+          >
+            <span class="menu-bullet">
+              <span class="bullet bullet-dot"></span>
+            </span>
+            <span class="menu-title">نشر</span>
+          </a>
+        </div>
+        <div class="menu-item">
+          <a
+            class="menu-link without-sub"
+            routerLinkActive="active"
+            routerLink="/dashboard/urgent-news"
+          >
+            <span class="menu-bullet">
+              <span class="bullet bullet-dot"></span>
+            </span>
+            <span class="menu-title">أخبار عاجلة</span>
+          </a>
+        </div>
+      </div>
+      <div
+        class="menu-item menu-accordion"
+        data-kt-menu-trigger="click"
+        routerLinkActive="here show"
+      >
+        <span class="menu-link">
+          <span class="menu-icon">
+            <app-keenicon name="eye" class="fs-2"></app-keenicon>
+          </span>
+          <span class="menu-title">متابعة</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <div
+          class="menu-sub menu-sub-accordion"
+          routerLinkActive="menu-active-bg"
+        >
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/news-status"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">حالة المواد</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/main-news"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">المواد المنشورة</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/deleted-news"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">المحتوي المحذوف</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/order-news"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">ترتيب المادة</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/editor-news-state"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">المواد الخاصة بي</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/news-files"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">مواد التغطيات</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/news-urgent-files"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">عاجل التغطيات</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/tag-profiles"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">Tag Profiles</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="menu-item menu-accordion"
+        data-kt-menu-trigger="click"
+        routerLinkActive="here show"
+      >
+        <span class="menu-link">
+          <span class="menu-icon">
+            <app-keenicon name="save-2" class="fs-2"></app-keenicon>
+          </span>
+          <span class="menu-title">الأرشيف</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <div
+          class="menu-sub menu-sub-accordion"
+          routerLinkActive="menu-active-bg"
+        >
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/photos"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">الصور</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/galleries"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">البومات الصور</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="menu-item menu-accordion"
+        data-kt-menu-trigger="click"
+        routerLinkActive="here show"
+      >
+        <span class="menu-link">
+          <span class="menu-icon">
+            <app-keenicon name="abstract-28" class="fs-2"></app-keenicon>
+          </span>
+          <span class="menu-title">الأقسام</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <div
+          class="menu-sub menu-sub-accordion"
+          routerLinkActive="menu-active-bg"
+        >
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/sections"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">تعديل الأقسام</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/order-sections"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">ترتيب الأقسام</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/category"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">صفحات الأقسام</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/order-categories"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">ترتيب الصفحات</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="menu-item menu-accordion"
+        data-kt-menu-trigger="click"
+        routerLinkActive="here show"
+      >
+        <span class="menu-link">
+          <span class="menu-icon">
+            <app-keenicon name="badge" class="fs-2"></app-keenicon>
+          </span>
+          <span class="menu-title">كتاب الرأي</span>
+          <span class="menu-arrow"></span>
+        </span>
+        <div
+          class="menu-sub menu-sub-accordion"
+          routerLinkActive="menu-active-bg"
+        >
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/editors"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">كل الكتاب</span>
+            </a>
+          </div>
+          <div class="menu-item">
+            <a
+              class="menu-link without-sub"
+              routerLinkActive="active"
+              routerLink="/dashboard/order-editors"
+            >
+              <span class="menu-bullet">
+                <span class="bullet bullet-dot"></span>
+              </span>
+              <span class="menu-title">ترتيب الكتاب</span>
+            </a>
+          </div>
+          <div
+            class="menu-item menu-accordion"
+            data-kt-menu-trigger="click"
+            routerLinkActive="here show"
+          >
+            <span class="menu-link">
+              <span class="menu-icon">
+                <app-keenicon name="code" class="fs-2"></app-keenicon>
+              </span>
+              <span class="menu-title">Ads Seo</span>
+              <span class="menu-arrow"></span>
+            </span>
+            <div
+              class="menu-sub menu-sub-accordion"
+              routerLinkActive="menu-active-bg"
+            >
+              <div class="menu-item">
+                <a
+                  class="menu-link without-sub"
+                  routerLinkActive="active"
+                  routerLink="/dashboard/ads/general-headers"
+                >
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">General Headers</span>
+                </a>
+              </div>
+              <div class="menu-item">
+                <a
+                  class="menu-link without-sub"
+                  routerLinkActive="active"
+                  routerLink="/dashboard/ads/home-page-headers"
+                >
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">Home Page Headers</span>
+                </a>
+              </div>
+              <div class="menu-item">
+                <a
+                  class="menu-link without-sub"
+                  routerLinkActive="active"
+                  routerLink="/dashboard/ads/inner-page-headers"
+                >
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">Inner Pages Headers</span>
+                </a>
+              </div>
+              <div class="menu-item">
+                <a
+                  class="menu-link without-sub"
+                  routerLinkActive="active"
+                  routerLink="/dashboard/ads/ads-text-file-code"
+                >
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span class="menu-title">Ads Text File Code</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="menu-item" routerLinkActive="here show">
+            <span class="menu-link">
+              <span class="menu-icon">
+                <app-keenicon name="printer" class="fs-2"></app-keenicon>
+              </span>
+              <span class="menu-title">الأعداد المطبوعة</span>
+            </span>
+          </div>
+          <div class="menu-item" routerLinkActive="here show">
+            <span class="menu-link">
+              <span class="menu-icon">
+                <app-keenicon name="pin" class="fs-2"></app-keenicon>
+              </span>
+              <span class="menu-title">الصفحات الثابتة</span>
+            </span>
+          </div>
+          <div class="menu-item" routerLinkActive="here show">
+            <span class="menu-link">
+              <span class="menu-icon">
+                <app-keenicon name="notification-2" class="fs-2"></app-keenicon>
+              </span>
+              <span class="menu-title">ارسال اشعارات</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="app-navbar-item" [ngClass]="itemClass">
+  <button type="submit" class="btn btn-secondary" (click)="onReload()">
+    <span class="indicator-label">تحديث البيانات</span>
+    @if(isLoading){
+    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+    }
+  </button>
+</div>
+<div class="app-navbar-item" [ngClass]="itemClass">
+  <app-theme-mode-switcher
+    [toggleBtnClass]="btnClass"
+    toggleBtnClass="{`btn-active-light-primary btn-custom ${toolbarButtonHeightClass}`}"
+  ></app-theme-mode-switcher>
+</div>
+<div class="app-navbar-item" [ngClass]="itemClass">
+  <div
+    class="cursor-pointer symbol"
+    [ngClass]="userAvatarClass"
+    data-kt-menu-trigger="{default: 'click'}"
+    data-kt-menu-attach="parent"
+    data-kt-menu-placement="bottom-end"
+  >
+    <img src="./assets/media/svg/avatars/blank.svg" />
+  </div>
+  <app-user-inner data-kt-menu="true"></app-user-inner>
+</div>

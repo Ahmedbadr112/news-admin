@@ -1,0 +1,19 @@
+<!-- <div class="col-lg-7 fv-row"> -->
+<div class="input-group mb-5">
+  <span
+    class="input-group-text rounded-end rounded-start-0"
+    [owlDateTimeTrigger]="dt1"
+  >
+    <i class="ki-duotone ki-calendar fs-2"
+      ><span class="path1"></span><span class="path2"></span
+    ></i>
+  </span>
+  <input
+    [owlDateTime]="dt1"
+    placeholder="أختر التاريخ والوقت"
+    class="form-control form-control-solid rounded-start"
+    (dateTimeChange)="dateChange($event)"
+  />
+  <owl-date-time #dt1></owl-date-time>
+</div>
+<!-- </div> -->

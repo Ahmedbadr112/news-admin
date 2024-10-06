@@ -1,0 +1,37 @@
+@if(!hasError){
+<div class="app-container py-3 py-lg-6">
+  <div class="row g-3 g-xl-5">
+    @for(item of newsStatusCount; track item; let idx = $index){
+    <a [routerLink]="['/dashboard/operations', idx]" class="col-xl-2 col-6">
+      <app-stats
+        svgIcon="{{ '../../../assets/media/counters/' + idx + '.svg' }}"
+        class="card hoverable card-xl-stretch mb-5 mb-xl-8"
+        [ngClass]="'bg-' + generateCardBGColor(idx)"
+        color="white"
+        iconColor="white"
+        title="{{ item.count }}"
+        description="{{ item.roleName }}"
+      ></app-stats>
+    </a>
+    }
+    <div class="col-xl-2 col-6">
+      <app-stats
+        svgIcon="../../../assets/media/counters/5.svg"
+        class="card bg-white hoverable card-xl-stretch mb-5 mb-xl-8"
+        color="black"
+        iconColor="black"
+        title="{{ total }}"
+        description="المجموع"
+      ></app-stats>
+    </div>
+  </div>
+</div>
+}@else {
+<div class="alert alert-danger mx-auto" style="width: fit-content">
+  <div class="alert-text font-weight-bold">
+    <p>
+      ظهرت مشكلة اثناء الحصول علي بيانات حالة الأخبار, رجاءا حاول في وقت أخر.
+    </p>
+  </div>
+</div>
+}

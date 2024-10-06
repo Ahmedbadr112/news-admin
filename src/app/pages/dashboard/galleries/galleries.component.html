@@ -1,0 +1,96 @@
+<div class="card card-xl-stretch mb-xl-8">
+  <div
+    class="card-header justify-content-between gap-3 align-items-center border-0 mt-2"
+  >
+    <div class="w-100 d-flex align-items-center gap-2 my-3">
+      <div class="flex-grow-1 position-relative">
+        <app-keenicon
+          name="magnifier"
+          class="fs-2 position-absolute top-50 start-0 ms-5 translate-middle-y"
+        ></app-keenicon>
+        <input
+          type="text"
+          class="form-control form-control-solid pe-5"
+          name="search"
+          placeholder="ابحث عن الألبوم من هنا.."
+          (change)="onSearch($event)"
+        />
+      </div>
+      <div class="card-toolbar">
+        <button
+          type="button"
+          class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+          data-kt-menu-trigger="click"
+          data-kt-menu-placement="bottom-end"
+          data-kt-menu-flip="top-end"
+        >
+          <app-keenicon name="category" class="fs-2"></app-keenicon>
+        </button>
+        <app-dropdown-menu
+          [filterOptions]="filterOptions"
+          (filterOptionsEmitter)="recieveFilterOption($event)"
+        ></app-dropdown-menu>
+        <app-add-gallery></app-add-gallery>
+      </div>
+    </div>
+    <div class="w-100 pt-2">
+      <app-list [listOptions]="listOptions">
+        @if(isLoading$ |async){
+        <span
+          clas="indicator-progress"
+          [style.textAlign]="'center'"
+          [style.display]="'block'"
+        >
+          <p class="mx-auto text-gray-900 fw-bolder fs-6 d-inline">
+            انتظر قليلا...{{ " " }}
+          </p>
+          <span
+            class="spinner-border spinner-border-sm align-middle me-1"
+          ></span> </span
+        >}@else if(galleries && galleries.length){ @for(gallery of galleries;
+        track gallery; let idx = $index){
+        <div class="d-flex align-items-center mb-8">
+          <div class="flex-grow-1">
+            <span class="text-black fw-bolder fs-6 mx-2">
+              {{ gallery.galleryTitle }}
+            </span>
+          </div>
+          <app-upload-image
+            [type]="'upload-with-album'"
+            [galleryId]="gallery.galleryID"
+          ></app-upload-image>
+          <a
+            [routerLink]="['/dashboard/photos']"
+            [queryParams]="{ GalleryID: gallery.galleryID }"
+            class="btn btn-sm btn-outline-light border me-2"
+            >الصور</a
+          >
+          <app-add-gallery
+            [type]="'edit'"
+            [galleryId]="gallery.galleryID"
+            (eventEmitter)="recieveEvent($event)"
+          ></app-add-gallery>
+          <button
+            (click)="updateGalleryToMain(gallery.galleryID)"
+            class="btn btn-sm btn-outline-light border me-2"
+          >
+            {{ gallery.active ? "ايقاف" : "تفعيل" }}
+          </button>
+          <button
+            (click)="deleteGallery(gallery.galleryID)"
+            class="btn btn-sm btn-icon btn-outline-light border b d-flex align-items-center gap-3 me-2"
+            [disabled]="isLoading$ | async"
+          >
+            <app-keenicon
+              name="cross"
+              class="fs-2 m-0 text-dark"
+            ></app-keenicon>
+          </button>
+        </div>
+        }} @else {
+        <p class="text-center text-gray-900 fw-bolder fs-6">لا يوجد بيانات</p>
+        }
+      </app-list>
+    </div>
+  </div>
+</div>

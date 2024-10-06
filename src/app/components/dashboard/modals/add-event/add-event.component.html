@@ -1,0 +1,82 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <form [formGroup]="eventForm" id="eventForm">
+    <div class="col-lg-10 fv-row">
+      <div class="input-group mb-5">
+        <textarea
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          [ngClass]="event.value.length ? 'rounded-start-0' : ''"
+          formControlName="event"
+          #event
+        ></textarea>
+        @if(event.value.length){
+        <span
+          class="input-group-text rounded-end-0 rounded-start"
+          id="basic-addon2"
+        >
+          {{ event.value.length }}
+        </span>
+        }
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+              validation: 'minlength',
+              message: ' يجب ان لا يقل المقدمة عن ' + this.eventForm.controls.event.errors?.minlength 
+              ?.requiredLength + ' حرف ',
+              control: eventForm.controls['event'],
+            }
+          "
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message: ' يجب ان لا يزيد المقدمة عن ' + this.eventForm.controls.event.errors?.maxlength 
+              ?.requiredLength + ' حرف ',
+              control: eventForm.controls['event'],
+            }
+          "
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'المقدمة مطلوبة',
+            control: eventForm.controls['event']
+          }"
+        ></ng-container>
+      </div>
+      <ng-template
+        #formError
+        let-control="control"
+        let-message="message"
+        let-validation="validation"
+      >
+        <ng-container
+          *ngIf="
+            control.hasError(validation) &&
+            (control.dirty || control.touched || (!control.valid && submitted))
+          "
+        >
+          <div class="w-100 fv-plugins-message-container">
+            <span role="alert" class="text-danger">
+              {{ message }}
+            </span>
+          </div>
+        </ng-container>
+      </ng-template>
+      <!-- TODO: Implement tinyMce again -->
+      <!-- <editor
+        [init]="init"
+        [apiKey]="TINY_MCE_API_KEY"
+        formControlName="Story"
+      /> -->
+    </div>
+  </form>
+</app-modal>
+<button
+  class="btn btn-sm mx-2 btn-primary d-flex align-items-center gap-2"
+  (click)="openModal()"
+>
+  @if(type === "edit"){ تعديل الحدث }@else{أضافة حدث}
+</button>

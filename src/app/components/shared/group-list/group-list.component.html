@@ -1,0 +1,131 @@
+@if(groupListOptions.isCustom){
+<ng-content></ng-content>
+}@else{
+<div class="timeline-label">
+  @if(isLoading){
+  <span
+    clas="indicator-progress"
+    [style.textAlign]="'center'"
+    [style.display]="'block'"
+  >
+    <p class="mx-auto text-gray-900 fw-bolder fs-6 d-inline">
+      انتظر قليلا...{{ " " }}
+    </p>
+    <span
+      class="spinner-border spinner-border-sm align-middle me-1"
+    ></span> </span
+  >} @else if(items && items.length){@for( item of items; track item ){
+  <div class="">
+    <div class="d-flex align-items-center gap-2 me-1">
+      <i class="fa fa-genderless text-primary fs-1 position-relative z-2"></i>
+      <div class="fw-bolder text-gray-800 my-2 fs-6">
+        {{ convertDateToArabicFormat(item.date) }}
+      </div>
+    </div>
+    <div class="new-container me-auto my-7">
+      @for(subItem of item.news; track subItem){
+      <div
+        class="bg-gray-100 bg-hover-gray-300 px-2 py-4 rounded w-100 d-flex justify-content-between align-items-center mb-2"
+      >
+        @if(groupListOptions.isCheckList){
+        <div
+          class="form-check form-check-sm form-check-custom form-check-solid"
+        >
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value="{{ subItem.id }}"
+            (change)="toggleSelect($event)"
+            [checked]="isSelected(subItem.id)"
+            data-kt-check="true"
+            data-kt-check-target=".widget-9-check"
+          />
+        </div>
+        }
+        <span class="fw-bolder text-gray-800 flex-grow-1 px-2"
+          >{{ subItem.title }} @if(subItem.subTitle){<span class="text-danger"
+            >[{{ subItem.subTitle }}]</span
+          >}</span
+        >
+        @if(groupListOptions.isDate){
+        <span class="fw-bolder text-gray-800 pe-3">{{
+          convertTimeToArabic12HourFormat(subItem.time || subItem.date)
+        }}</span>
+        } @if(groupListOptions.isViews ){
+        <span class="fw-bolder text-gray-800 pe-3">
+          [{{ subItem.views }}]
+        </span>
+        } @if(groupListOptions.isState ){
+        <span class="fw-bolder text-gray-800 pe-3">
+          {{ subItem.state }}
+        </span>
+        } @if(groupListOptions.isEmployee ){
+        <span class="fw-bolder text-gray-800 pe-3">
+          {{ subItem.employee }}
+        </span>
+        }
+        <div class="d-flex">
+          @if(groupListOptions.isEnable && groupListOptions.enable){<button
+            (click)="groupListOptions.enable(subItem.id)"
+            class="btn btn-sm btn-outline-light border b d-flex align-items-center gap-3 me-2"
+          >
+            @if(isLoading){
+            <span class="indicator-progress" [style.display]="'block'">
+              جاري التحميل...
+              <span
+                class="spinner-border spinner-border-sm align-middle ms-2"
+              ></span>
+            </span>
+            }@else { @if(subItem.active) { ايقاف }@else{ تفعيل }}</button
+          >} @if(groupListOptions.isVersion){<a
+            class="btn btn-sm btn-outline-light border b d-flex align-items-center gap-3 me-2"
+            [routerLink]="['/dashboard/versions', subItem.id]"
+            >الأصدارات</a
+          >} @if(groupListOptions.isEdit){
+          <a
+            [routerLink]="['/dashboard/add-new']"
+            [queryParams]="{ id: subItem.id }"
+            class="btn btn-sm btn-outline-light border me-2"
+            >تعديل</a
+          >
+          } @if(groupListOptions.isEditWithModal){
+          <app-add-urgent-new
+            *ngIf="groupListOptions.type === 'edit-urgent'"
+            [type]="'edit'"
+            [urgentNew]="subItem"
+            (onNewUrgentContentAddedEmitter)="recieveIsAdded($event)"
+          ></app-add-urgent-new>
+
+          <app-add-event
+            *ngIf="groupListOptions.type === 'edit-events'"
+            [event]="subItem"
+            [type]="'edit'"
+            (isEventAdded)="recieveIsAdded($event)"
+          ></app-add-event>
+
+          } @if(groupListOptions.isDelete && groupListOptions.delete){<button
+            (click)="groupListOptions.delete(subItem.id)"
+            class="btn btn-sm btn-icon btn-outline-light border b d-flex align-items-center gap-3 me-2"
+          >
+            <app-keenicon
+              name="cross"
+              class="fs-2 m-0 text-dark"
+            ></app-keenicon></button
+          >} @if(groupListOptions.isPreview){<button
+            class="btn btn-sm btn-icon btn-outline-light border b d-flex align-items-center gap-3 me-2"
+          >
+            <app-keenicon
+              name="eye"
+              class="fs-2 m-0 text-dark"
+            ></app-keenicon></button
+          >}
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  } }@else{
+  <p class="text-center text-gray-900 fw-bolder fs-6">لا يوجد بيانات</p>
+  }
+</div>
+}

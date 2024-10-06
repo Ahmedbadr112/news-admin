@@ -1,0 +1,157 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <form *ngIf="sectionForm" [formGroup]="sectionForm" novalidate="novalidate">
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >العنوان</label
+      >
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="SecTitle"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'العنوان مطلوب',
+            control: sectionForm.controls['SecTitle']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control.hasError(validation) && (control.dirty || control.touched)
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <span role="alert" class="text-danger">
+            {{ message }}
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >الكلمات</label
+      >
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="Keywords"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'الكلمات مطلوبة',
+            control: sectionForm.controls['Keywords']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control.hasError(validation) && (control.dirty || control.touched)
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <span role="alert" class="text-danger">
+            {{ message }}
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6">الوصف</label>
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="Description"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'الوصف مطلوب',
+            control: sectionForm.controls['Description']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <div *ngIf="f.CategoryId" class="row mb-6">
+      <label class="col-lg-2 col-form-label fw-bold fs-6">الباب</label>
+      <div class="col-lg-8">
+        <select
+          class="form-select w-fit form-select-solid"
+          data-kt-select2="true"
+          data-placeholder="Select option"
+          data-allow-clear="true"
+          formControlName="CategoryId"
+        >
+          @for(item of newsCategories; track item;){
+          <option value="{{ item.categoryID }}">{{ item.name }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control.hasError(validation) && (control.dirty || control.touched)
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <span role="alert" class="text-danger">
+            {{ message }}
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <div class="row mb-6">
+      <label class="col-lg-3 col-form-label fw-bold fs-6">اخفاء</label>
+      <div class="col-lg-3 d-flex align-items-center">
+        <div class="form-check form-check-solid form-switch fv-row">
+          <input
+            class="form-check-input w-45px h-30px"
+            formControlName="Hide"
+            type="checkbox"
+          /><label class="form-check-label"></label>
+        </div>
+      </div>
+      <label class="col-lg-3 col-form-label fw-bold fs-6">اسبوعي</label>
+      <div class="col-lg-3 d-flex align-items-center">
+        <div class="form-check form-check-solid form-switch fv-row">
+          <input
+            class="form-check-input w-45px h-30px"
+            formControlName="WeeklySection"
+            type="checkbox"
+          /><label class="form-check-label"></label>
+        </div>
+      </div>
+    </div>
+  </form>
+</app-modal>
+<button class="btn btn-sm btn-outline-light border me-2" (click)="openModal()">
+  @if(type==='edit'){ تعديل }@else{ اضافة باب فرعي }
+</button>

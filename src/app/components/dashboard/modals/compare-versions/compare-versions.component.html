@@ -1,0 +1,72 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  @if(isLoading$|async){
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">...جاري التحميل</span>
+    </div>
+  </div>
+  }@else {
+  <div class="d-flex gap-3">
+    @for(item of items; track item){
+    <div class="card-body pb-0">
+      <div class="d-flex justify-content-between align-items-center mb-5">
+        <div class="d-flex align-items-center flex-grow-1">
+          <div class="symbol symbol-45px">
+            <img src="{{ item.picPath }}" alt="" />
+          </div>
+          <div class="d-flex flex-column">
+            <a href="#" class="text-gray-800 text-hover-primary fs-6 fw-bolder">
+              {{ item.userName }}
+            </a>
+            <div
+              class="text-gray-500 fw-bold d-flex align-items-center gap-2"
+              style="font-size: 0.8rem"
+            >
+              <span>
+                {{ item.byLine.replace(":", "") }}
+              </span>
+              <span>[{{ formatDateString(item.date) }}]</span>
+            </div>
+            <span class="text-gray-500 fw-bold" style="font-size: 0.8rem">
+              {{ item.picCaption }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="mb-7">
+        <div class="text-gray-800 mb-5">
+          <h1 class="fw-bolder fs-3">{{ item.title }}</h1>
+          <h2 *ngIf="item.subTitle" class="fw-bold fs-4">
+            {{ item.subTitle }}
+          </h2>
+          <div [innerHTML]="sanitizeHtml(item.story)"></div>
+        </div>
+        <div class="d-flex align-items-center mb-5">
+          <a
+            href="#"
+            class="btn btn-sm btn-light btn-color-muted btn-active-light-success px-4 py-2 me-4"
+          >
+            <app-keenicon name="element-plus" class="fs-3"></app-keenicon>
+            22
+          </a>
+
+          <a
+            href="#"
+            class="btn btn-sm btn-light btn-color-muted btn-active-light-danger px-4 py-2"
+          >
+            <app-keenicon name="heart" class="fs-2"></app-keenicon>
+            59
+          </a>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  }
+</app-modal>
+<button
+  class="btn btn-sm btn-primary d-flex align-items-center gap-3"
+  (click)="openModal()"
+>
+  مقارنة
+</button>

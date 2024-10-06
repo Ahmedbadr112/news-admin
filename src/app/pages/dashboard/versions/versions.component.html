@@ -1,0 +1,33 @@
+<div class="card card-xl-stretch mb-xl-8">
+  <div class="card-header border-0">
+    <h3 class="card-title fw-bolder text-gray-900">الأصدارات</h3>
+    <div
+      class="d-flex flex-nowrap align-items-center justify-content-between gap-5 w-100"
+    >
+      <div class="form-check form-check-sm form-check-custom form-check-solid">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="toggleSelectAll($event)"
+          [checked]="items.length === selectedNews.length"
+          data-kt-check="true"
+          data-kt-check-target=".widget-9-check"
+        />
+        <span class="me-2">الكل</span>
+      </div>
+      <div class="card-toolbar">
+        <app-compare-versions
+          [selectedItems]="selectedNews"
+          (errorEmit)="recieveError($event)"
+        ></app-compare-versions>
+      </div>
+    </div>
+    <div class="card-body pt-2">
+      <app-group-list
+        [items]="items"
+        [groupListOptions]="groupListOptions"
+        (selectedItemsChange)="receiveSelectedNews($event)"
+      ></app-group-list>
+    </div>
+  </div>
+</div>

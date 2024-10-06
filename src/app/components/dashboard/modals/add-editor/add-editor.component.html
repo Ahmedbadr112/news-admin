@@ -1,0 +1,105 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <form [formGroup]="editorForm" novalidate="novalidate">
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >أسم الكاتب</label
+      >
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="editorName"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'الأسم مطلوب',
+            control: editorForm.controls['editorName']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control.hasError(validation) && (control.dirty || control.touched)
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <span role="alert" class="text-danger">
+            {{ message }}
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label fw-bold fs-6"
+        >البريد الألكتروني للكاتب</label
+      >
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="editorEmail"
+        />
+      </div>
+    </div>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >بيانات الكاتب</label
+      >
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="editorDetails"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'بيانات الكاتب مطلوبة',
+            control: editorForm.controls['editorDetails']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control.hasError(validation) && (control.dirty || control.touched)
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <span role="alert" class="text-danger">
+            {{ message }}
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label fw-bold fs-6">الصورة</label>
+      <div class="col-lg-8">
+        <app-image></app-image>
+      </div>
+    </div>
+  </form>
+</app-modal>
+<button
+  class="btn btn-sm mx-2 btn-primary d-flex align-items-center gap-2"
+  (click)="openModal()"
+>
+  أضافة كاتب
+  <app-keenicon name="plus" class="fs-1"></app-keenicon>
+</button>

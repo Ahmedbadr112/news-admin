@@ -1,0 +1,73 @@
+@if(listOptions.isCustom){
+<ng-content></ng-content>
+}@else {@if(isLoading){
+<span
+  clas="indicator-progress"
+  [style.textAlign]="'center'"
+  [style.display]="'block'"
+>
+  <p class="mx-auto text-gray-900 fw-bolder fs-6 d-inline">
+    انتظر قليلا...{{ " " }}
+  </p>
+  <span
+    class="spinner-border spinner-border-sm align-middle me-1"
+  ></span> </span
+>}@else if(items && items.length){ @for(item of items; track item; let idx =
+$index){
+<div class="d-flex align-items-center mb-8">
+  <!-- begin::Bullet -->
+  @if(listOptions.isCheckList){
+  <div class="form-check form-check-sm form-check-custom form-check-solid">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      value="{{ item.id }}"
+      (change)="toggleSelect($event)"
+      [checked]="isAllSectionSelected"
+      data-kt-check="true"
+      data-kt-check-target=".widget-9-check"
+    />
+  </div>
+  }
+  <div class="flex-grow-1">
+    @if(item.name){<span class="text-black fw-bolder fs-6 mx-2">
+      {{ item.name }} </span
+    >}
+    <span class="fw-bold d-block">{{ item.secTitle }}</span>
+  </div>
+  @if(listOptions.isResult){
+  <app-vote-result [votes]="item.totalVotes"></app-vote-result>
+
+  } @if(listOptions.isEnable && listOptions.enable){<button
+    (click)="listOptions.enable(item.id)"
+    class="btn btn-sm btn-outline-light border b d-flex align-items-center gap-3 me-2"
+  >
+    {{ item.active ? "ايقاف" : "تفعيل" }}</button
+  >} @if(listOptions.isEdit&&listOptions.isEditor){<app-edit-editor
+    [type]="'edit'"
+    [item]="item"
+    [sectionId]="item.id"
+    (eventEmitter)="recieveEvent($event)"
+  ></app-edit-editor
+  >}@else if (listOptions.isEdit) {<app-add-section
+    [type]="'edit'"
+    [sectionId]="item.id"
+    (eventEmitter)="recieveEvent($event)"
+  ></app-add-section
+  >} @if(listOptions.isDelete && listOptions.delete){<button
+    (click)="listOptions.delete(item.id)"
+    class="btn btn-sm btn-icon btn-outline-light border b d-flex align-items-center gap-3 me-2"
+  >
+    @if(isLoading){
+    <span class="indicator-progress" [style.display]="'block'">
+      جاري التحميل...
+      <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+    </span>
+    }@else {
+    <app-keenicon name="cross" class="fs-2 m-0 text-dark"></app-keenicon>
+    }</button
+  >}
+</div>
+}} @else {
+<p class="text-center text-gray-900 fw-bolder fs-6">لا يوجد بيانات</p>
+}}

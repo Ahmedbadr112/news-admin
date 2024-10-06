@@ -1,0 +1,68 @@
+<div class="card">
+  <div class="card-header border-0">
+    <div
+      class="d-flex flex-nowrap align-items-center justify-content-between gap-5 w-100"
+    >
+      <form class="flex-grow-1 position-relative" autoComplete="off">
+        <app-keenicon
+          name="magnifier"
+          class="fs-2 position-absolute top-50 start-0 ms-5 translate-middle-y"
+        ></app-keenicon>
+        <input
+          type="text"
+          class="form-control form-control-solid pe-5"
+          name="search"
+          placeholder="ابحث عن الخبر المنشور من هنا.."
+          (input)="onSearch($event)"
+        />
+      </form>
+    </div>
+  </div>
+  <div class="card-body pt-2">
+    <app-group-list [groupListOptions]="groupListOptions">
+      <div class="timeline-label">
+        @if(isLoading$ | async){
+        <span
+          clas="indicator-progress"
+          [style.textAlign]="'center'"
+          [style.display]="'block'"
+        >
+          <p class="mx-auto text-gray-900 fw-bolder fs-6 d-inline">
+            انتظر قليلا...{{ " " }}
+          </p>
+          <span
+            class="spinner-border spinner-border-sm align-middle me-1"
+          ></span> </span
+        >} @else if(files && files.length){@for( item of files; track item ){
+        <div class="">
+          <div class="d-flex align-items-center gap-2 me-1">
+            <i
+              class="fa fa-genderless text-primary fs-1 position-relative z-2"
+            ></i>
+            <div class="fw-bolder text-gray-800 my-2 fs-6">
+              {{ convertDateToArabicFormat(item.date) }}
+            </div>
+          </div>
+          <div class="new-container me-auto my-7">
+            @for(subItem of item.news; track subItem){
+            <div
+              class="bg-gray-100 bg-hover-gray-300 px-2 py-4 rounded w-100 d-flex justify-content-between align-items-center mb-2"
+            >
+              <span class="fw-bolder text-gray-800 flex-grow-1 px-2"
+                >{{ subItem.title }}
+              </span>
+              <div class="d-flex">
+                <app-files-events></app-files-events>
+                <app-add-event></app-add-event>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+        } }@else{
+        <p class="text-center text-gray-900 fw-bolder fs-6">لا يوجد بيانات</p>
+        }
+      </div>
+    </app-group-list>
+  </div>
+</div>

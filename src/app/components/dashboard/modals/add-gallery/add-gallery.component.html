@@ -1,0 +1,149 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <form *ngIf="galleryForm" [formGroup]="galleryForm">
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >نوع الألبوم</label
+      >
+      <div class="col-lg-8">
+        <select
+          class="form-select form-select-solid"
+          data-kt-select2="true"
+          data-placeholder="Select option"
+          data-allow-clear="true"
+          formControlName="GalleryTypeId"
+        >
+          @for(item of galleryTypes; track item; let idx = $index;){
+          <option value="{{ item.galleryTypeID }}">
+            {{ item.galleryTypeTitle }}
+          </option>
+          }
+        </select>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'نوع الألبوم مطلوب',
+            control: galleryForm.controls['GalleryTypeId']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control?.hasError(validation) && (control.dirty || control.touched)
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <span role="alert" class="text-danger">
+            {{ message }}
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >أسم الألبوم</label
+      >
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="GalleryName"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'اسم الألبوم مطلوب',
+            control: galleryForm.controls['GalleryName']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control?.hasError(validation) && (control.dirty || control.touched)
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <span role="alert" class="text-danger">
+            {{ message }}
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >وصف الألبوم</label
+      >
+      <div class="col-lg-8">
+        <textarea
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="GalleryDescription"
+        ></textarea>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'وصف الألبوم مطلوب',
+            control: galleryForm.controls['GalleryDescription']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control?.hasError(validation) && (control.dirty || control.touched)
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <span role="alert" class="text-danger">
+            {{ message }}
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >الكلمات الدالة</label
+      >
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="GalleryKeywords"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'الكلمات المفتاحية للألبوم مطلوبة',
+            control: galleryForm.controls['GalleryKeywords']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+  </form>
+</app-modal>
+<button class="btn btn-sm btn-outline-light border me-2" (click)="openModal()">
+  @if(type==='edit'){ تعديل }@else { أضافة البوم }
+</button>

@@ -1,0 +1,138 @@
+<app-modal #modal [modalConfig]="modalConfig">
+  <form [formGroup]="categoryForm" novalidate="novalidate">
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >العنوان</label
+      >
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="Name"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'العنوان مطلوب',
+            control: categoryForm.controls['Name']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control.hasError(validation) && (control.dirty || control.touched)
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <span role="alert" class="text-danger">
+            {{ message }}
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >عنوان ميتا</label
+      >
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="SeoTitle"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'عنوان ميتا مطلوب',
+            control: categoryForm.controls['SeoTitle']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <ng-template
+      #formError
+      let-control="control"
+      let-message="message"
+      let-validation="validation"
+    >
+      <ng-container
+        *ngIf="
+          control.hasError(validation) && (control.dirty || control.touched)
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <span role="alert" class="text-danger">
+            {{ message }}
+          </span>
+        </div>
+      </ng-container>
+    </ng-template>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >وصف ميتا</label
+      >
+      <div class="col-lg-8">
+        <input
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="SeoDescription"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'وصف ميتا مطلوب',
+            control: categoryForm.controls['SeoDescription']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <div class="row mb-6">
+      <label class="col-lg-2 col-form-label required fw-bold fs-6"
+        >كلمات مفتاحية</label
+      >
+      <div class="col-lg-8">
+        <textarea
+          type="text"
+          class="form-control form-control-lg form-control-solid"
+          formControlName="SeoKeyWords"
+        ></textarea>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'الكلمات المفتاحيه مطلوبة',
+            control: categoryForm.controls['SeoKeyWords']
+          }"
+        ></ng-container>
+      </div>
+    </div>
+    <div class="row mb-6">
+      <label class="col-lg-3 col-form-label fw-bold fs-6">اخفاء</label>
+      <div class="col-lg-3 d-flex align-items-center">
+        <div class="form-check form-check-solid form-switch fv-row">
+          <input
+            class="form-check-input w-45px h-30px"
+            formControlName="Hide"
+            type="checkbox"
+          /><label class="form-check-label"></label>
+        </div>
+      </div>
+    </div>
+  </form>
+</app-modal>
+<button
+  class="btn btn-sm btn-outline-dark border b d-flex align-items-center gap-3 me-2"
+  (click)="openModal()"
+>
+  {{ title }}
+</button>

@@ -1,0 +1,33 @@
+<div class="card card-xl-stretch mb-xl-8">
+  <div
+    class="card-header justify-content-between gap-3 align-items-center border-0 mt-2"
+  >
+    <h3 class="card-title fw-bolder text-gray-900">كل الكتاب</h3>
+    <div class="w-100 d-flex align-items-center gap-2 my-3">
+      <div class="flex-grow-1 position-relative">
+        <app-keenicon
+          name="magnifier"
+          class="fs-2 position-absolute top-50 start-0 ms-5 translate-middle-y"
+        ></app-keenicon>
+        <input
+          type="text"
+          class="form-control form-control-solid pe-5"
+          name="search"
+          placeholder="ابحث عن الكتاب من هنا.."
+          (change)="onSearch($event)"
+        />
+      </div>
+      <div class="card-toolbar">
+        <app-add-editor></app-add-editor>
+      </div>
+    </div>
+  </div>
+  <div class="card-body pt-2">
+    <app-list
+      [listOptions]="listOptions"
+      [isCheckList]="false"
+      [items]="items"
+      [isLoading]="isLoading$ | async"
+    ></app-list>
+  </div>
+</div>
